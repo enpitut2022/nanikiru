@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'next_page.dart';
+import 'first_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -78,33 +77,18 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Column(
-        children: [ElevatedButton(
-          onPressed: (){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NextPage()),
-            );
-          },
-          child: const Text('服を選ぶ'),
-
-        ), ElevatedButton(
+      body:Column(
+        children:[ Image.asset('images/top.jpeg'),
+        ElevatedButton(
             onPressed: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => NextPage()),
+                MaterialPageRoute(builder: (context) => FirstPage()),
               );
             },
-            child: const Text('登録'),
+            child: const Text('Tap to start'),)]
+      )
 
-          )],
-
-      ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
