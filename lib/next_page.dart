@@ -10,7 +10,9 @@ class NextPage extends StatelessWidget{
       ),
       body: Container(
         color: Colors.white,
+          child: const Text('次へ')
       ),
+
     );
   }
 

@@ -77,17 +77,27 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-     child: ElevatedButton(
-       onPressed: (){
-         Navigator.push(
-           context,
-           MaterialPageRoute(builder: (context) => NextPage()),
-         );
-       },
-       child: const Text('次へ'),
+      body: Column(
+        children: [ElevatedButton(
+          onPressed: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => NextPage()),
+            );
+          },
+          child: const Text('服を選ぶ'),
 
-     ),
+        ), ElevatedButton(
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => NextPage()),
+              );
+            },
+            child: const Text('登録'),
+
+          )],
+
       ),
       // floatingActionButton: FloatingActionButton(
       //   onPressed: _incrementCounter,
