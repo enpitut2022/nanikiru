@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nanikiru/suggest_fashion.dart';
 
 import 'next_page.dart';
 
@@ -83,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => NextPage()),
+              MaterialPageRoute(builder: (context) => SuggestFashion()),
             );
           },
           child: const Text('服を選ぶ'),
