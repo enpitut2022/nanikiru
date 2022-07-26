@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'mens_womens.dart';
 import 'next_page.dart';
 
 void main() {
@@ -83,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => NextPage()),
+              MaterialPageRoute(builder: (context) => MensWomens()),
             );
           },
           child: const Text('服を選ぶ'),
