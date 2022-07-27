@@ -133,49 +133,49 @@ class _FlutterDemoState extends State<FlutterDemo> {
             title: Text(tops[0]),
             value: 0,
             groupValue: tops_sentaku,
-            onChanged: (value) => _onRadioSelected(value)
+            onChanged: _onRadioSelected
           ),
           RadioListTile(
               title: Text(tops[1]),
               value: 1,
               groupValue: tops_sentaku,
-              onChanged: (value) => _onRadioSelected(value)
+              onChanged: _onRadioSelected
           ),
           RadioListTile(
               title: Text(tops[2]),
               value: 2,
               groupValue: tops_sentaku,
-              onChanged: (value) => _onRadioSelected(value)
+              onChanged: _onRadioSelected
           ),
           RadioListTile(
               title: Text(tops[3]),
               value: 3,
               groupValue: tops_sentaku,
-              onChanged: (value) => _onRadioSelected(value)
+              onChanged: _onRadioSelected
           ),
           RadioListTile(
               title: Text(tops[4]),
               value: 4,
               groupValue: tops_sentaku,
-              onChanged: (value) => _onRadioSelected(value)
+              onChanged: _onRadioSelected
           ),
           RadioListTile(
               title: Text(tops[5]),
               value: 5,
               groupValue: tops_sentaku,
-              onChanged: (value) => _onRadioSelected(value)
+              onChanged: _onRadioSelected
           ),
           RadioListTile(
               title: Text(tops[6]),
               value: 6,
               groupValue: tops_sentaku,
-              onChanged: (value) => _onRadioSelected(value)
+              onChanged: _onRadioSelected
           ),
           RadioListTile(
               title: Text(tops[7]),
               value: 7,
               groupValue: tops_sentaku,
-              onChanged: (value) => _onRadioSelected(value)
+              onChanged: _onRadioSelected
           ),
           ElevatedButton(
             onPressed: (){
@@ -194,9 +194,10 @@ class _FlutterDemoState extends State<FlutterDemo> {
 
     );
   }
-  _onRadioSelected(value) {
+  _onRadioSelected(value) =>
     setState(() {
       tops_sentaku = value;
     });
   }
-}
+
+

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'next_page.dart';
 import 'register_fashion.dart';
 import 'fahion_list.dart';
-
+import 'select_fashion_category.dart';
 class FirstPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class FirstPage extends StatelessWidget{
           onPressed: (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FlutterDemo(storage: CounterStorage())),
+              MaterialPageRoute(builder: (context) => ThirdPage()),
             );
           },
           child: const Text('登録'),
