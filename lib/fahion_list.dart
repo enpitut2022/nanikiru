@@ -58,11 +58,10 @@ class FlutterDemo_2 extends StatefulWidget {
   State<FlutterDemo_2> createState() => _FlutterDemoState();
 }
 
-enum SingingCharacter { lafayette, jefferson }
 
 class _FlutterDemoState extends State<FlutterDemo_2> {
   String _counter = "";
-  SingingCharacter? _character = SingingCharacter.lafayette;
+
 
   @override
   void initState() {
