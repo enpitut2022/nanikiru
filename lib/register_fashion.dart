@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import 'main.dart';
 
@@ -41,11 +42,11 @@ class CounterStorage {
     }
   }
 
-  Future<File> writeCounter(String counter) async {
+  Future<File> writeCounter(String counter, String color) async {
     final file = await _localFile;
 
     // Write the file
-    return file.writeAsString(counter + '\n' ,mode:FileMode.append);
+    return file.writeAsString(counter + ',' + color + '\n' ,mode:FileMode.append);
   }
 }
 
@@ -70,7 +71,40 @@ class _FlutterDemoState extends State<FlutterDemo> {
     "ベスト",
     "その他トップス"
   ];
+
   int tops_sentaku = 0;
+  Color selectedColor = Colors.blue;
+  Color pickerColor = Colors.blue;
+
+  void _changeColor(Color color) {
+    pickerColor = color;
+  }
+
+  void _showPicker(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Pick a color!'),
+        content: SingleChildScrollView(
+          child: ColorPicker(
+            pickerColor: pickerColor,
+            onColorChanged: _changeColor,
+            showLabel: true,
+            pickerAreaHeightPercent: 0.8,
+          ),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: const Text('Got it'),
+            onPressed: () {
+              setState(() => selectedColor = pickerColor);
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
 
 
   @override
@@ -86,7 +120,7 @@ class _FlutterDemoState extends State<FlutterDemo> {
   Future<File> _incrementCounter() {
 
     // Write the variable as a string to the file.
-    return widget.storage.writeCounter(tops[tops_sentaku]);
+    return widget.storage.writeCounter(tops[tops_sentaku], selectedColor.value.toRadixString(16));
   }
 
   @override
@@ -143,6 +177,13 @@ class _FlutterDemoState extends State<FlutterDemo> {
               groupValue: tops_sentaku,
               onChanged: (value) => _onRadioSelected(value)
           ),
+          ElevatedButton(
+            onPressed: (){
+              _showPicker(context);
+            },
+            child: const Text('色選択'),
+
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -150,6 +191,7 @@ class _FlutterDemoState extends State<FlutterDemo> {
       tooltip: 'Increment',
       child: const Icon(Icons.add),
       ),
+
     );
   }
   _onRadioSelected(value) {
