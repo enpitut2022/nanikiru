@@ -72,6 +72,7 @@ class _GenderState extends State<RadioButtonWidget> {
             groupValue: men,
             onChanged: (value) => _onRadioSelected(value)
           ),
+
     ),
           SizedBox(width:150, height: 50.0, child:
           RadioListTile(
