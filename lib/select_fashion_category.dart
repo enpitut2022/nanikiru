@@ -23,7 +23,7 @@ class ThirdPage extends StatelessWidget{
           onPressed: (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => TopsPage()),
+              MaterialPageRoute(builder: (context) => FlutterDemo(storage: CounterStorage())),
             );
           },
           child: const Text('トップス'),
