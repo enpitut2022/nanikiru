@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'next_page.dart';
+import 'register_fashion.dart';
+import 'fahion_list.dart';
 
 class FirstPage extends StatelessWidget{
   @override
@@ -23,12 +25,22 @@ class FirstPage extends StatelessWidget{
           onPressed: (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => NextPage()),
+              MaterialPageRoute(builder: (context) => FlutterDemo(storage: CounterStorage())),
             );
           },
           child: const Text('登録'),
 
-        )],
+        ),
+          ElevatedButton(
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FlutterDemo_2(storage: CounterStorage2())),
+              );
+            },
+            child: const Text('登録服一覧'),
+
+          )],
 
       ),
     );
