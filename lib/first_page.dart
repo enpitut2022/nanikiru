@@ -10,27 +10,29 @@ class FirstPage extends StatelessWidget{
       appBar: AppBar(
         title: const Text('NANIKIRU'),
       ),
-      body: Column(
-        children: [ElevatedButton(
-          onPressed: (){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SuggestFashion()),
-            );
-          },
-          child: const Text('服を選ぶ'),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [ElevatedButton(
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SuggestFashion()),
+              );
+            },
+            child: const Text('候補のファッションを見る'),
 
-        ), ElevatedButton(
-          onPressed: (){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NextPage()),
-            );
-          },
-          child: const Text('登録'),
+          ), ElevatedButton(
+              onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NextPage()),
+                );
+              },
+            child: const Text('服を登録'),
+          )],
 
-        )],
-
+        ),
       ),
     );
   }
