@@ -156,6 +156,18 @@ class _RegisteredClothesState extends State<SuggestFashion> {
           //登録がない場合はランダムで提案
           for (var i = 0; i <= 3; i++)
             if (fashion_map[category.keys.elementAt(i)].length == 0)  ... [Text(category.keys.elementAt(i)+":"+category[category.keys.elementAt(i)][rand_nums[i]])] else Text(category.keys.elementAt(i)+":"+fashion_map[category.keys.elementAt(i)][category_rands[i]]),
+          CustomPaint(
+            size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
+            painter: _MyPainterTops(),
+          ),
+          CustomPaint(
+            size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
+            painter: _MyPainterBottoms(),
+          ),
+          CustomPaint(
+            size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
+            painter: _MyPainterShoes(),
+          ),
         ],
       ),
     );
