@@ -117,7 +117,7 @@ class _FlutterDemoState extends State<FlutterDemo> {
       });
     });
     gender = widget.storage.men;
-    if(gender == false){
+
       tops = [
         "シャツ",
         "ニット・セーター",
@@ -139,7 +139,7 @@ class _FlutterDemoState extends State<FlutterDemo> {
         "ベスト",
         "その他トップス"
       ];
-    }
+
   }
 
   Future<File> _incrementCounter() {
