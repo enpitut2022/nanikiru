@@ -393,6 +393,5 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
   _onRadioSelected(value) =>
       setState(() {
         tops_sentaku = value;
-
       });
 }
