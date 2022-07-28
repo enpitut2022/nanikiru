@@ -267,8 +267,9 @@ class _FlutterDemoState extends State<FlutterDemo> {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: _buildBody()
+        children: _buildBody(),
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
