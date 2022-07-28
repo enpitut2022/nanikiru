@@ -22,7 +22,7 @@ class FirstPage extends StatelessWidget{
               onPressed: (){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SuggestFashion(men)),
+                  MaterialPageRoute(builder: (context) => SuggestFashion(men, storage: CounterStorage2())),
                 );
               },
               child: const Text('候補のファッションを見る'),
