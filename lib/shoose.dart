@@ -72,11 +72,18 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
     "ドレスシューズ",
     "その他シューズ"
   ];
+  final tags = [
+    "春",
+    "夏",
+    "秋",
+    "冬"
+  ];
 
   int tops_sentaku = 0;
   Color selectedColor = Colors.blue;
   Color pickerColor = Colors.blue;
   bool gender = false;
+  final isSelected = false;
 
   void _changeColor(Color color) {
     pickerColor = color;
@@ -162,6 +169,38 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
           },
           child: const Text('色選択'),
 
+        ),    Wrap(
+          runSpacing: 16,
+          spacing: 16,
+          children: tags.map((tag) {
+            // selectedTags の中に自分がいるかを確かめる
+       // 後で実装する。
+            return InkWell(
+              borderRadius: const BorderRadius.all(Radius.circular(32)),
+              onTap: () {
+                // ここに tap されたときの処理
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(32)),
+                  border: Border.all(
+                    width: 2,
+                    color: Colors.pink,
+                  ),
+                  color: isSelected ? Colors.pink : null,
+                ),
+                child: Text(
+                  tag,
+                  style: TextStyle(
+                    color: isSelected ? Colors.white : Colors.pink,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
         ),
       ];
     } else {
@@ -226,6 +265,38 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
           },
           child: const Text('色選択'),
 
+        ),    Wrap(
+          runSpacing: 16,
+          spacing: 16,
+          children: tags.map((tag) {
+            // selectedTags の中に自分がいるかを確かめる
+        // 後で実装する。
+            return InkWell(
+              borderRadius: const BorderRadius.all(Radius.circular(32)),
+              onTap: () {
+                // ここに tap されたときの処理
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(32)),
+                  border: Border.all(
+                    width: 2,
+                    color: Colors.pink,
+                  ),
+                  color: isSelected ? Colors.pink : null,
+                ),
+                child: Text(
+                  tag,
+                  style: TextStyle(
+                    color: isSelected ? Colors.white : Colors.pink,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
         ),
       ];
     }
@@ -236,6 +307,7 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: _buildBody(),
