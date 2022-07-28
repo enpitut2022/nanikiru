@@ -78,12 +78,12 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
     "秋",
     "冬"
   ];
-
+  var selectedTags = <String>[];
   int tops_sentaku = 0;
   Color selectedColor = Colors.blue;
   Color pickerColor = Colors.blue;
   bool gender = false;
-  final isSelected = false;
+
 
   void _changeColor(Color color) {
     pickerColor = color;
@@ -168,41 +168,74 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
             _showPicker(context);
           },
           child: const Text('色選択'),
-
-        ),    Wrap(
-          runSpacing: 16,
-          spacing: 16,
-          children: tags.map((tag) {
-            // selectedTags の中に自分がいるかを確かめる
-       // 後で実装する。
-            return InkWell(
-              borderRadius: const BorderRadius.all(Radius.circular(32)),
-              onTap: () {
-                // ここに tap されたときの処理
-              },
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(32)),
-                  border: Border.all(
-                    width: 2,
-                    color: Colors.pink,
-                  ),
-                  color: isSelected ? Colors.pink : null,
-                ),
-                child: Text(
-                  tag,
-                  style: TextStyle(
-                    color: isSelected ? Colors.white : Colors.pink,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            );
-          }).toList(),
         ),
-      ];
+    Wrap(
+    runSpacing: 16,
+    spacing: 16,
+    children: tags.map((tag) {
+    // selectedTags の中に自分がいるかを確かめる
+    final isSelected = selectedTags.contains(tag);
+    return InkWell(
+    borderRadius: const BorderRadius.all(Radius.circular(32)),
+    onTap: () {
+    if (isSelected) {
+    // すでに選択されていれば取り除く
+    selectedTags.remove(tag);
+    } else {
+    // 選択されていなければ追加する
+    selectedTags.add(tag);
+    }
+    setState(() {});
+    },
+    child: AnimatedContainer(
+    duration: const Duration(milliseconds: 200),
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    decoration: BoxDecoration(
+    borderRadius: const BorderRadius.all(Radius.circular(32)),
+    border: Border.all(
+    width: 2,
+    color: Colors.pink,
+    ),
+    color: isSelected ? Colors.pink : null,
+    ),
+    child: Text(
+    tag,
+    style: TextStyle(
+    color: isSelected ? Colors.white : Colors.pink,
+    fontWeight: FontWeight.bold,
+    ),
+    ),
+    ),
+    );
+    }).toList(),
+    ),
+    Expanded(
+    child: Center(
+    child: Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+    ElevatedButton(
+    onPressed: () {
+    selectedTags.clear();
+    setState(() {});
+    },
+    child: const Text('クリア'),
+    ),
+    const SizedBox(width: 16),
+    ElevatedButton(
+    onPressed: () {
+    // deep copy する方法
+    // selectedTags = tags だと参照を渡したことにしかならない
+    selectedTags = List.of(tags);
+    setState(() {});
+    },
+    child: const Text('ぜんぶ'),
+    ),
+    ],
+    ),
+    ),
+    ),
+    ];
     } else {
       children = <Widget>[
         RadioListTile(
@@ -265,16 +298,23 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
           },
           child: const Text('色選択'),
 
-        ),    Wrap(
+        ), Wrap(
           runSpacing: 16,
           spacing: 16,
           children: tags.map((tag) {
             // selectedTags の中に自分がいるかを確かめる
-        // 後で実装する。
+            final isSelected = selectedTags.contains(tag);
             return InkWell(
               borderRadius: const BorderRadius.all(Radius.circular(32)),
               onTap: () {
-                // ここに tap されたときの処理
+                if (isSelected) {
+                  // すでに選択されていれば取り除く
+                  selectedTags.remove(tag);
+                } else {
+                  // 選択されていなければ追加する
+                  selectedTags.add(tag);
+                }
+                setState(() {});
               },
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
@@ -297,6 +337,32 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
               ),
             );
           }).toList(),
+        ),
+        Expanded(
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    selectedTags.clear();
+                    setState(() {});
+                  },
+                  child: const Text('クリア'),
+                ),
+                const SizedBox(width: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    // deep copy する方法
+                    // selectedTags = tags だと参照を渡したことにしかならない
+                    selectedTags = List.of(tags);
+                    setState(() {});
+                  },
+                  child: const Text('ぜんぶ'),
+                ),
+              ],
+            ),
+          ),
         ),
       ];
     }
