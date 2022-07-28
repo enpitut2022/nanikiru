@@ -3,6 +3,7 @@ import 'package:nanikiru/fahion_list.dart';
 import 'package:nanikiru/suggest_fashion.dart';
 import 'package:nanikiru/register_fashion.dart';
 import 'next_page.dart';
+import 'select_fashion_category.dart';
 
 bool men = true;
 
@@ -31,7 +32,7 @@ class FirstPage extends StatelessWidget{
               onPressed: (){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => FlutterDemo(storage: CounterStorage())),
+                  MaterialPageRoute(builder: (context) => ThirdPage()),
                 );
               },
               child: const Text('服を登録'),
