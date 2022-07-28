@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nanikiru/select_register_fashion.dart';
+import 'package:nanikiru/select_view_register_fashion.dart';
 import 'next_page.dart';
 
 import 'fahion_list.dart';
@@ -11,8 +11,8 @@ import 'outer.dart';
 import 'shoose.dart';
 import 'tops.dart';
 
-class SelectRegisterFashion extends StatelessWidget{
-  SelectRegisterFashion(this.men);
+class RegisterFashion extends StatelessWidget{
+  RegisterFashion(this.men);
   bool men;
 
   @override
@@ -29,7 +29,7 @@ class SelectRegisterFashion extends StatelessWidget{
           onPressed: (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ThirdPage(men)),
+              MaterialPageRoute(builder: (context) => FlutterDemo(storage: CounterStorage(men))),
             );
           },
           child: const Text('トップス'),
@@ -38,7 +38,7 @@ class SelectRegisterFashion extends StatelessWidget{
           onPressed: (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ThirdPage(men)),
+              MaterialPageRoute(builder: (context) => FlutterDemo_bottoms(storage: CounterStorage_bottoms(men))),
             );
           },
           child: const Text('ボトムス'),
@@ -48,7 +48,7 @@ class SelectRegisterFashion extends StatelessWidget{
             onPressed: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ThirdPage(men)),
+                MaterialPageRoute(builder: (context) =>FlutterDemo_outer(storage: CounterStorage_outer())),
               );
             },
             child: const Text('アウター'),
@@ -57,7 +57,7 @@ class SelectRegisterFashion extends StatelessWidget{
             onPressed: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ThirdPage(men)),
+                MaterialPageRoute(builder: (context) => FlutterDemo_shoose(storage: CounterStorageshoose(men))),
               );
             },
             child: const Text('シューズ'),
