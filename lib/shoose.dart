@@ -12,8 +12,10 @@ class CounterStorageshoose {
   CounterStorageshoose(this.men);
   bool men;
 
+
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
+
 
     return directory.path;
   }
@@ -37,11 +39,11 @@ class CounterStorageshoose {
     }
   }
 
-  Future<File> writeCounter(String counter, String color) async {
+  Future<File> writeCounter(String counter, String color, List<String> selectedTags) async {
     final file = await _localFile;
 
     // Write the file
-    return file.writeAsString("shoose" + ',' + counter + ',' + color + '\n' ,mode:FileMode.append);
+    return file.writeAsString("shoose" + ',' + counter + ',' + color + ','+selectedTags.toString()+'\n' ,mode:FileMode.append);
   }
 }
 
@@ -122,6 +124,7 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
     widget.storage.readCounter().then((value) {
       setState(() {
         _counter = value;
+
       });
     });
     gender = widget.storage.men;
@@ -130,7 +133,7 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
   Future<File> _incrementCounter() {
 
     // Write the variable as a string to the file.
-    return widget.storage.writeCounter(tops[tops_sentaku], selectedColor.value.toRadixString(16));
+    return widget.storage.writeCounter(tops[tops_sentaku],selectedColor.value.toRadixString(16),selectedTags.toList());
   }
 
   List<Widget> _buildBody() {
@@ -295,6 +298,7 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
         ElevatedButton(
           onPressed: (){
             _showPicker(context);
+
           },
           child: const Text('色選択'),
 
@@ -389,5 +393,6 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
   _onRadioSelected(value) =>
       setState(() {
         tops_sentaku = value;
+
       });
 }
