@@ -12,15 +12,15 @@ import 'dart:developer' as developer;
 class _MyPainterTops extends CustomPainter {
 
   // ※ コンストラクタに引数を持たせたい場合はこんな感じで
-  //double value;
-  //_MyPainter(this.value);
+  _MyPainterTops(this.color);
+  String color;
 
   // 実際の描画処理を行うメソッド
   @override
   void paint(Canvas canvas, Size size) {
     // ここに描画の処理を書く
     final paint = Paint();
-    paint.color = Colors.red;
+    paint.color = Color(int.parse(color, radix: 16));
     const margin = 5.0;
     canvas.drawRect(Rect.fromLTWH(0 +margin,10,100,40), paint);
     canvas.drawRect(Rect.fromLTWH(20 +margin,30,60,70), paint);
@@ -36,8 +36,9 @@ class _MyPainterTops extends CustomPainter {
 class _MyPainterBottoms extends CustomPainter {
 
   // ※ コンストラクタに引数を持たせたい場合はこんな感じで
-  //double value;
-  //_MyPainter(this.value);
+  _MyPainterBottoms(this.color);
+  String color;
+
 
   // 実際の描画処理を行うメソッド
   @override
@@ -45,7 +46,7 @@ class _MyPainterBottoms extends CustomPainter {
     // ここに描画の処理を書く
     const margin = 25.0;
     final paint = Paint();
-    paint.color = Colors.blue;
+    paint.color = Color(int.parse(color, radix: 16));
     canvas.drawRect(Rect.fromLTWH(0+margin,0,35,36), paint);
     canvas.drawRect(Rect.fromLTWH(35+margin,0,25,100), paint);
     canvas.drawRect(Rect.fromLTWH(0+margin,0,25,100), paint);
@@ -59,15 +60,16 @@ class _MyPainterBottoms extends CustomPainter {
 class _MyPainterShoes extends CustomPainter {
 
   // ※ コンストラクタに引数を持たせたい場合はこんな感じで
-  //double value;
-  //_MyPainter(this.value);
+  _MyPainterShoes(this.color);
+  String color;
+
 
   // 実際の描画処理を行うメソッド
   @override
   void paint(Canvas canvas, Size size) {
     // ここに描画の処理を書く
     final paint = Paint();
-    paint.color = Colors.brown;
+    paint.color = Color(int.parse(color, radix: 16));
     canvas.drawRect(Rect.fromLTWH(10+5,0,35,23), paint);
     canvas.drawRect(Rect.fromLTWH(55+5,0,35,23), paint);
   }
@@ -91,6 +93,7 @@ class _RegisteredClothesState extends State<SuggestFashion> {
   List fashion_list = [''];
 
   Map fashion_map = {'tops':[''], 'bottoms':[''], 'outer':[''], 'shoes':[''], 'dress':['']};
+  Map color_map = {'tops':[''], 'bottoms':[''], 'outer':[''], 'shoes':[''], 'dress':['']};
 
   Map men_category = Constants().men_category;
   Map women_category = Constants().women_category;
@@ -104,16 +107,16 @@ class _RegisteredClothesState extends State<SuggestFashion> {
       fashion_list.removeLast();
 
       for (var i = 0; i < fashion_list.length; i++) {
-      List item_information;
-      item_information = fashion_list[i].split(',');
-      fashion_map[item_information[0]].add(item_information[1]);
-      // print(fashion_map);
+        List item_information;
+        item_information = fashion_list[i].split(',');
+        fashion_map[item_information[0]].add(item_information[1]);
+        color_map[item_information[0]].add(item_information[2]);
 
       }
       // fashion_map.forEach((String key, List value){
       for (var key in fashion_map.keys) {
-      fashion_map[key].removeAt(0);
-      print(fashion_map);
+        fashion_map[key].removeAt(0);
+        color_map[key].removeAt(0);
       };
 
       // });
@@ -146,6 +149,18 @@ class _RegisteredClothesState extends State<SuggestFashion> {
       }
     }
 
+    List colors = [];
+    for (var i = 0; i <= 3; i++){
+      if (fashion_map[category.keys.elementAt(i)].length == 0){
+        colors.add('ff000000');
+      }
+      else{
+        colors.add(color_map[category.keys.elementAt(i)][category_rands[i]]);
+      }
+    }
+
+
+
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
@@ -158,15 +173,15 @@ class _RegisteredClothesState extends State<SuggestFashion> {
             if (fashion_map[category.keys.elementAt(i)].length == 0)  ... [Text(category.keys.elementAt(i)+":"+category[category.keys.elementAt(i)][rand_nums[i]])] else Text(category.keys.elementAt(i)+":"+fashion_map[category.keys.elementAt(i)][category_rands[i]]),
           CustomPaint(
             size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
-            painter: _MyPainterTops(),
+            painter: _MyPainterTops(colors[0]),
           ),
           CustomPaint(
             size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
-            painter: _MyPainterBottoms(),
+            painter: _MyPainterBottoms(colors[1]),
           ),
           CustomPaint(
             size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
-            painter: _MyPainterShoes(),
+            painter: _MyPainterShoes(colors[3]),
           ),
         ],
       ),
