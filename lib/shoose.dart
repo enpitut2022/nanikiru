@@ -11,12 +11,12 @@ void main() {
   runApp(
     MaterialApp(
       title: 'Reading and Writing Files',
-      home: FlutterDemo(storage: CounterStorage()),
+      home: FlutterDemo_shoose(storage: CounterStorageshoose()),
     ),
   );
 }
 
-class CounterStorage {
+class CounterStorageshoose {
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
 
@@ -25,7 +25,7 @@ class CounterStorage {
 
   Future<File> get _localFile async {
     final path = await _localPath;
-    return File('$path/counter3.txt');
+    return File('$path/shoose.txt');
   }
 
   Future<String> readCounter() async {
@@ -46,33 +46,29 @@ class CounterStorage {
     final file = await _localFile;
 
     // Write the file
-    return file.writeAsString(counter + ',' + color + '\n' ,mode:FileMode.append);
+    return file.writeAsString("shoose" + ',' + counter + ',' + color + '\n' ,mode:FileMode.append);
   }
 }
 
-class FlutterDemo extends StatefulWidget {
-  const FlutterDemo({super.key, required this.storage});
+class FlutterDemo_shoose extends StatefulWidget {
+  const FlutterDemo_shoose({super.key, required this.storage});
 
-  final CounterStorage storage;
+  final CounterStorageshoose storage;
 
   @override
-  State<FlutterDemo> createState() => _FlutterDemoState();
+  State<FlutterDemo_shoose> createState() => _FlutterDemoState();
 }
 
-class _FlutterDemoState extends State<FlutterDemo> {
+class _FlutterDemoState extends State<FlutterDemo_shoose> {
   String _counter = "";
-  List<String> tops = [
-    "シャツ",
-    "ニット・セーター",
-    "カーディガン",
-    "カットソー",
-    "Tシャツ",
-    "タンクトップ",
-    "ベスト",
-    "その他トップス"
+  List<String> shoose = [
+  "サンダル",
+  "スニーカー",
+  "ドレスシューズ",
+  "その他シューズ"
   ];
 
-  int tops_sentaku = 0;
+  int shoose_sentaku = 0;
   Color selectedColor = Colors.blue;
   Color pickerColor = Colors.blue;
 
@@ -120,7 +116,7 @@ class _FlutterDemoState extends State<FlutterDemo> {
   Future<File> _incrementCounter() {
 
     // Write the variable as a string to the file.
-    return widget.storage.writeCounter(tops[tops_sentaku], selectedColor.value.toRadixString(16));
+    return widget.storage.writeCounter(shoose[shoose_sentaku], selectedColor.value.toRadixString(16));
   }
 
   @override
@@ -130,51 +126,24 @@ class _FlutterDemoState extends State<FlutterDemo> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           RadioListTile(
-            title: Text(tops[0]),
-            value: 0,
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-          ),
-          RadioListTile(
-              title: Text(tops[1]),
+              title: Text(shoose[0]),
+              value: 0,
+              groupValue: shoose_sentaku,
+              onChanged: _onRadioSelected
+          ),RadioListTile(
+              title: Text(shoose[1]),
               value: 1,
-              groupValue: tops_sentaku,
+              groupValue: shoose_sentaku,
               onChanged: _onRadioSelected
-          ),
-          RadioListTile(
-              title: Text(tops[2]),
+          ),RadioListTile(
+              title: Text(shoose[2]),
               value: 2,
-              groupValue: tops_sentaku,
+              groupValue: shoose_sentaku,
               onChanged: _onRadioSelected
-          ),
-          RadioListTile(
-              title: Text(tops[3]),
+          ),RadioListTile(
+              title: Text(shoose[3]),
               value: 3,
-              groupValue: tops_sentaku,
-              onChanged: _onRadioSelected
-          ),
-          RadioListTile(
-              title: Text(tops[4]),
-              value: 4,
-              groupValue: tops_sentaku,
-              onChanged: _onRadioSelected
-          ),
-          RadioListTile(
-              title: Text(tops[5]),
-              value: 5,
-              groupValue: tops_sentaku,
-              onChanged: _onRadioSelected
-          ),
-          RadioListTile(
-              title: Text(tops[6]),
-              value: 6,
-              groupValue: tops_sentaku,
-              onChanged: _onRadioSelected
-          ),
-          RadioListTile(
-              title: Text(tops[7]),
-              value: 7,
-              groupValue: tops_sentaku,
+              groupValue: shoose_sentaku,
               onChanged: _onRadioSelected
           ),
           ElevatedButton(
@@ -187,17 +156,15 @@ class _FlutterDemoState extends State<FlutterDemo> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-      onPressed: _incrementCounter,
-      tooltip: 'Increment',
-      child: const Icon(Icons.add),
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
       ),
 
     );
   }
   _onRadioSelected(value) =>
-    setState(() {
-      tops_sentaku = value;
-    });
-  }
-
-
+      setState(() {
+        shoose_sentaku = value;
+      });
+}
