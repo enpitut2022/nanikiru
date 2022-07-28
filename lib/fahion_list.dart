@@ -90,6 +90,7 @@ class _FlutterDemoState extends State<FlutterDemo_2> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff81d4fa),
         title: const Text('Reading and Writing Files'),
       ),
       body: Center(

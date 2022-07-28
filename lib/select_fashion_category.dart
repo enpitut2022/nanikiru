@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nanikiru/select_register_fashion.dart';
 import 'next_page.dart';
 
 import 'fahion_list.dart';
@@ -10,8 +11,8 @@ import 'outer.dart';
 import 'shoose.dart';
 import 'tops.dart';
 
-class ThirdPage extends StatelessWidget{
-  ThirdPage(this.men);
+class SelectRegisterFashion extends StatelessWidget{
+  SelectRegisterFashion(this.men);
   bool men;
 
   @override
@@ -20,13 +21,15 @@ class ThirdPage extends StatelessWidget{
     return Scaffold(
       appBar: AppBar(
         title: const Text('NANIKIRU'),
+        backgroundColor: Color(0xff81d4fa),
       ),
-      body: Column(
+      body: Center(
+        child:Column( mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [ElevatedButton(
           onPressed: (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FlutterDemo(storage: CounterStorage(men))),
+              MaterialPageRoute(builder: (context) => ThirdPage(men)),
             );
           },
           child: const Text('トップス'),
@@ -35,7 +38,7 @@ class ThirdPage extends StatelessWidget{
           onPressed: (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FlutterDemo_bottoms(storage: CounterStorage_bottoms(men)) ),
+              MaterialPageRoute(builder: (context) => ThirdPage(men)),
             );
           },
           child: const Text('ボトムス'),
@@ -45,7 +48,7 @@ class ThirdPage extends StatelessWidget{
             onPressed: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => FlutterDemo_outer(storage: CounterStorage_outer())),
+                MaterialPageRoute(builder: (context) => ThirdPage(men)),
               );
             },
             child: const Text('アウター'),
@@ -54,7 +57,7 @@ class ThirdPage extends StatelessWidget{
             onPressed: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => FlutterDemo_shoose(storage: CounterStorageshoose(men))),
+                MaterialPageRoute(builder: (context) => ThirdPage(men)),
               );
             },
             child: const Text('シューズ'),
@@ -62,7 +65,7 @@ class ThirdPage extends StatelessWidget{
           ),
         ],
 
-      ),
+      ),)
     );
   }
 

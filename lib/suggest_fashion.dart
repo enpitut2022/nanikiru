@@ -165,6 +165,7 @@ class _RegisteredClothesState extends State<SuggestFashion> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('NANIKIRU'),
+        backgroundColor: Color(0xff81d4fa),
       ),
       body: Column(
         children: <Widget>[

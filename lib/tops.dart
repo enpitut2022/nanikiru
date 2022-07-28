@@ -265,6 +265,10 @@ class _FlutterDemoState extends State<FlutterDemo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('NANIKIRU'),
+        backgroundColor: Color(0xff81d4fa),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: _buildBody(),

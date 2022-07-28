@@ -76,10 +76,19 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        backgroundColor: Color(0xff81d4fa),
       ),
-      body:Column(
-        children:[ Image.asset('images/top.jpeg'),
+
+      body:Center(
+        child: Column(
+        children:[
+          SizedBox(height:40),
+          Image.asset('images/top.jpeg'),
+        SizedBox(height:60),
         ElevatedButton(
+          style:ElevatedButton.styleFrom(
+            primary:Color(0xff4ba3c7),
+          ),
             onPressed: (){
               Navigator.push(
                 context,
@@ -88,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
             },
             child: const Text('Tap to start'),)]
       )
-
+      )
     );
   }
 }
