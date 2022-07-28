@@ -46,7 +46,7 @@ class CounterStorage {
     final file = await _localFile;
 
     // Write the file
-    return file.writeAsString(counter + ',' + color + '\n' ,mode:FileMode.append);
+    return file.writeAsString("tops" + ',' + counter + ',' + color + '\n' ,mode:FileMode.append);
   }
 }
 
