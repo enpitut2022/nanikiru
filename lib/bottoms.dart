@@ -7,16 +7,10 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import 'main.dart';
 
-void main() {
-  runApp(
-    MaterialApp(
-      title: 'Reading and Writing Files',
-      home: FlutterDemo_bottoms(storage: CounterStorage_bottoms()),
-    ),
-  );
-}
-
 class CounterStorage_bottoms {
+  CounterStorage_bottoms(this.men);
+  bool men;
+
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
 
@@ -63,12 +57,17 @@ class _FlutterDemoState extends State<FlutterDemo_bottoms> {
   String _counter = "";
   List<String> tops = [
     "パンツ",
-    "ショートパンツ"
+    "ショートパンツ",
+
+    "スカート",
+    "パンツ",
+    "ショートパンツ",
   ];
 
   int tops_sentaku = 0;
   Color selectedColor = Colors.blue;
   Color pickerColor = Colors.blue;
+  bool gender = false;
 
   void _changeColor(Color color) {
     pickerColor = color;
@@ -109,6 +108,7 @@ class _FlutterDemoState extends State<FlutterDemo_bottoms> {
         _counter = value;
       });
     });
+    gender = widget.storage.men;
   }
 
   Future<File> _incrementCounter() {
@@ -117,39 +117,72 @@ class _FlutterDemoState extends State<FlutterDemo_bottoms> {
     return widget.storage.writeCounter(tops[tops_sentaku], selectedColor.value.toRadixString(16));
   }
 
+  List<Widget> _buildBody() {
+
+    List<Widget> children;
+
+    if (gender) {
+      children = <Widget>[
+        RadioListTile(
+            title: Text(tops[0]),
+            value: 0,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[1]),
+            value: 1,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        ElevatedButton(
+          onPressed: (){
+            _showPicker(context);
+          },
+          child: const Text('色選択'),
+
+        ),
+      ];
+    } else {
+      children = <Widget>[
+        RadioListTile(
+            title: Text(tops[2]),
+            value: 2,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[3]),
+            value: 3,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[4]),
+            value: 4,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        ElevatedButton(
+          onPressed: (){
+            _showPicker(context);
+          },
+          child: const Text('色選択'),
+
+        ),
+      ];
+    }
+
+    return children;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          RadioListTile(
-              title: Text(tops[0]),
-              value: 0,
-              groupValue: tops_sentaku,
-              onChanged: _onRadioSelected
-          ),
-          RadioListTile(
-              title: Text(tops[1]),
-              value: 1,
-              groupValue: tops_sentaku,
-              onChanged: _onRadioSelected
-          ),
-          ElevatedButton(
-            onPressed: (){
-              _showPicker(context);
-            },
-            child: const Text('色選択'),
-
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-
+        children: _buildBody(),
+      )
     );
   }
   _onRadioSelected(value) =>

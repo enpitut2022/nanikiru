@@ -117,18 +117,6 @@ class _FlutterDemoState extends State<FlutterDemo> {
       });
     });
     gender = widget.storage.men;
-    if(gender == false){
-      tops = [
-        "シャツ",
-        "ニット・セーター",
-        "カーディガン",
-        "カットソー",
-        "Tシャツ",
-        "タンクトップ",
-        "ベスト",
-        "その他トップス"
-      ];
-    }
   }
 
   Future<File> _incrementCounter() {
@@ -137,69 +125,151 @@ class _FlutterDemoState extends State<FlutterDemo> {
     return widget.storage.writeCounter(tops[tops_sentaku], selectedColor.value.toRadixString(16));
   }
 
+  List<Widget> _buildBody() {
+
+    List<Widget> children;
+
+    if (gender) {
+      children = <Widget>[
+        RadioListTile(
+            title: Text(tops[0]),
+            value: 0,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[1]),
+            value: 1,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[2]),
+            value: 2,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[3]),
+            value: 3,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[4]),
+            value: 4,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[5]),
+            value: 5,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[6]),
+            value: 6,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[7]),
+            value: 7,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        ElevatedButton(
+          onPressed: (){
+            _showPicker(context);
+          },
+          child: const Text('色選択'),
+
+        ),
+      ];
+    } else {
+      children = <Widget>[
+        RadioListTile(
+            title: Text(tops[8]),
+            value: 8,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[9]),
+            value: 9,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[10]),
+            value: 10,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[11]),
+            value: 11,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[12]),
+            value: 12,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[13]),
+            value: 13,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[14]),
+            value: 14,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[15]),
+            value: 15,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[16]),
+            value: 16,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[17]),
+            value: 17,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        ElevatedButton(
+          onPressed: (){
+            _showPicker(context);
+          },
+          child: const Text('色選択'),
+
+        ),
+      ];
+    }
+
+    return children;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          RadioListTile(
-              title: Text(tops[0]),
-              value: 0,
-              groupValue: tops_sentaku,
-              onChanged: _onRadioSelected
-          ),
-          RadioListTile(
-              title: Text(tops[1]),
-              value: 1,
-              groupValue: tops_sentaku,
-              onChanged: _onRadioSelected
-          ),
-          RadioListTile(
-              title: Text(tops[2]),
-              value: 2,
-              groupValue: tops_sentaku,
-              onChanged: _onRadioSelected
-          ),
-          RadioListTile(
-              title: Text(tops[3]),
-              value: 3,
-              groupValue: tops_sentaku,
-              onChanged: _onRadioSelected
-          ),
-          RadioListTile(
-              title: Text(tops[4]),
-              value: 4,
-              groupValue: tops_sentaku,
-              onChanged: _onRadioSelected
-          ),
-          RadioListTile(
-              title: Text(tops[5]),
-              value: 5,
-              groupValue: tops_sentaku,
-              onChanged: _onRadioSelected
-          ),
-          RadioListTile(
-              title: Text(tops[6]),
-              value: 6,
-              groupValue: tops_sentaku,
-              onChanged: _onRadioSelected
-          ),
-          RadioListTile(
-              title: Text(tops[7]),
-              value: 7,
-              groupValue: tops_sentaku,
-              onChanged: _onRadioSelected
-          ),
-          ElevatedButton(
-            onPressed: (){
-              _showPicker(context);
-            },
-            child: const Text('色選択'),
-
-          ),
-        ],
+        children: _buildBody(),
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',

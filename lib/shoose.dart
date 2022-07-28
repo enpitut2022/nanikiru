@@ -2,21 +2,18 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:nanikiru/utils/constants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'utils/constants.dart';
 
 import 'main.dart';
 
-void main() {
-  runApp(
-    MaterialApp(
-      title: 'Reading and Writing Files',
-      home: FlutterDemo_shoose(storage: CounterStorageshoose()),
-    ),
-  );
-}
 
 class CounterStorageshoose {
+  CounterStorageshoose(this.men);
+  bool men;
+
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
 
@@ -25,7 +22,7 @@ class CounterStorageshoose {
 
   Future<File> get _localFile async {
     final path = await _localPath;
-    return File('$path/shoose.txt');
+    return File('$path/counter3.txt');
   }
 
   Future<String> readCounter() async {
@@ -42,11 +39,11 @@ class CounterStorageshoose {
     }
   }
 
-  Future<File> writeCounter(String counter, String color) async {
+  Future<File> writeCounter(String counter, String color, List<String> tag) async {
     final file = await _localFile;
 
     // Write the file
-    return file.writeAsString("shoose" + ',' + counter + ',' + color + '\n' ,mode:FileMode.append);
+    return file.writeAsString("shoes" + ',' + counter + ',' + color + ',' + tag.toString() + '\n' ,mode:FileMode.append);
   }
 }
 
@@ -61,16 +58,36 @@ class FlutterDemo_shoose extends StatefulWidget {
 
 class _FlutterDemoState extends State<FlutterDemo_shoose> {
   String _counter = "";
-  List<String> shoose = [
+  Map men_category = Constants().men_category;
+  Map women_category = Constants().women_category;
+  List<String> tops = [
   "サンダル",
   "スニーカー",
   "ドレスシューズ",
-  "その他シューズ"
-  ];
+  "その他シューズ",
 
-  int shoose_sentaku = 0;
+    "パンプス",
+    "サンダル",
+    "ブーティ",
+    "ショートブーツ",
+    "ロングブーツ",
+    "ニーハイブーツ",
+    "スニーカー",
+    "ドレスシューズ",
+    "その他シューズ"
+  ];
+  final tags = [
+    "春",
+    "夏",
+    "秋",
+    "冬"
+  ];
+  var selectedTags = <String>[];
+  String tops_sentaku = "サンダル";
   Color selectedColor = Colors.blue;
   Color pickerColor = Colors.blue;
+  bool gender = false;
+
 
   void _changeColor(Color color) {
     pickerColor = color;
@@ -111,49 +128,235 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
         _counter = value;
       });
     });
+    gender = widget.storage.men;
   }
 
   Future<File> _incrementCounter() {
 
     // Write the variable as a string to the file.
-    return widget.storage.writeCounter(shoose[shoose_sentaku], selectedColor.value.toRadixString(16));
+    return widget.storage.writeCounter(tops_sentaku, selectedColor.value.toRadixString(16), selectedTags.toList());
+  }
+
+  List<Widget> _buildBody() {
+
+    List<Widget> children;
+
+    if (gender) {
+      children = <Widget>[
+        RadioListTile(
+            title: Text(men_category['shoes'][0]),
+            value: men_category['shoes'][0],
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(men_category['shoes'][1]),
+            value: men_category['shoes'][1],
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(men_category['shoes'][2]),
+            value: men_category['shoes'][2],
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(men_category['shoes'][3]),
+            value: men_category['shoes'][3],
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        ElevatedButton(
+          onPressed: (){
+            _showPicker(context);
+          },
+          child: const Text('色選択'),
+        ),
+    Wrap(
+    runSpacing: 16,
+    spacing: 16,
+    children: tags.map((tag) {
+    // selectedTags の中に自分がいるかを確かめる
+    final isSelected = selectedTags.contains(tag);
+    return InkWell(
+    borderRadius: const BorderRadius.all(Radius.circular(32)),
+    onTap: () {
+    if (isSelected) {
+    // すでに選択されていれば取り除く
+    selectedTags.remove(tag);
+    } else {
+    // 選択されていなければ追加する
+    selectedTags.add(tag);
+    }
+    setState(() {});
+    },
+    child: AnimatedContainer(
+    duration: const Duration(milliseconds: 200),
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+    decoration: BoxDecoration(
+    borderRadius: const BorderRadius.all(Radius.circular(32)),
+    border: Border.all(
+    width: 2,
+    color: Colors.pink,
+    ),
+    color: isSelected ? Colors.pink : null,
+    ),
+    child: Text(
+    tag,
+    style: TextStyle(
+    color: isSelected ? Colors.white : Colors.pink,
+    fontWeight: FontWeight.bold,
+    ),
+    ),
+    ),
+    );
+    }).toList(),
+    ),
+    Expanded(
+    child: Center(
+    child: Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+    ElevatedButton(
+    onPressed: () {
+    selectedTags.clear();
+    setState(() {});
+    },
+    child: const Text('クリア'),
+    ),
+    const SizedBox(width: 16),
+    ElevatedButton(
+    onPressed: () {
+    // deep copy する方法
+    // selectedTags = tags だと参照を渡したことにしかならない
+    selectedTags = List.of(tags);
+    setState(() {});
+    },
+    child: const Text('ぜんぶ'),
+    ),
+    ],
+    ),
+    ),
+    ),
+    ];
+    } else {
+      children = <Widget>[
+        RadioListTile(
+            title: Text(women_category['shoes'][0]),
+            value: women_category['shoes'][0],
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(women_category['shoes'][1]),
+            value: women_category['shoes'][1],
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(women_category['shoes'][2]),
+            value: women_category['shoes'][2],
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(women_category['shoes'][3]),
+            value: women_category['shoes'][3],
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(women_category['shoes'][4]),
+            value: women_category['shoes'][4],
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        ElevatedButton(
+          onPressed: (){
+            _showPicker(context);
+          },
+          child: const Text('色選択'),
+
+        ), Wrap(
+          runSpacing: 16,
+          spacing: 16,
+          children: tags.map((tag) {
+            // selectedTags の中に自分がいるかを確かめる
+            final isSelected = selectedTags.contains(tag);
+            return InkWell(
+              borderRadius: const BorderRadius.all(Radius.circular(32)),
+              onTap: () {
+                if (isSelected) {
+                  // すでに選択されていれば取り除く
+                  selectedTags.remove(tag);
+                } else {
+                  // 選択されていなければ追加する
+                  selectedTags.add(tag);
+                }
+                setState(() {});
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(32)),
+                  border: Border.all(
+                    width: 2,
+                    color: Colors.pink,
+                  ),
+                  color: isSelected ? Colors.pink : null,
+                ),
+                child: Text(
+                  tag,
+                  style: TextStyle(
+                    color: isSelected ? Colors.white : Colors.pink,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+        Expanded(
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    selectedTags.clear();
+                    setState(() {});
+                  },
+                  child: const Text('クリア'),
+                ),
+                const SizedBox(width: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    // deep copy する方法
+                    // selectedTags = tags だと参照を渡したことにしかならない
+                    selectedTags = List.of(tags);
+                    setState(() {});
+                  },
+                  child: const Text('ぜんぶ'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ];
+    }
+
+    return children;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          RadioListTile(
-              title: Text(shoose[0]),
-              value: 0,
-              groupValue: shoose_sentaku,
-              onChanged: _onRadioSelected
-          ),RadioListTile(
-              title: Text(shoose[1]),
-              value: 1,
-              groupValue: shoose_sentaku,
-              onChanged: _onRadioSelected
-          ),RadioListTile(
-              title: Text(shoose[2]),
-              value: 2,
-              groupValue: shoose_sentaku,
-              onChanged: _onRadioSelected
-          ),RadioListTile(
-              title: Text(shoose[3]),
-              value: 3,
-              groupValue: shoose_sentaku,
-              onChanged: _onRadioSelected
-          ),
-          ElevatedButton(
-            onPressed: (){
-              _showPicker(context);
-            },
-            child: const Text('色選択'),
-
-          ),
-        ],
+        children: _buildBody(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
@@ -165,6 +368,6 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
   }
   _onRadioSelected(value) =>
       setState(() {
-        shoose_sentaku = value;
+        tops_sentaku = value;
       });
 }
