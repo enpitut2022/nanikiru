@@ -22,6 +22,8 @@ class SuggestFashion extends StatefulWidget {
 class _RegisteredClothesState extends State<SuggestFashion> {
   List fashion_list = [''];
 
+  Map fashion_map = {'tops':[''], 'bottoms':[''], 'outer':[''], 'shoes':[''], 'dress':['']};
+
   Map men_category = Constants().men_category;
   Map women_category = Constants().women_category;
 
@@ -32,6 +34,21 @@ class _RegisteredClothesState extends State<SuggestFashion> {
       setState(() {
         fashion_list = value.split('\n');
         fashion_list.removeLast();
+
+        for (var i = 0; i < fashion_list.length; i++) {
+          List item_information;
+          item_information = fashion_list[i].split(',');
+          fashion_map[item_information[0]].add(item_information[1]);
+          // print(fashion_map);
+
+        }
+        // fashion_map.forEach((String key, List value){
+          for (var key in fashion_map.keys) {
+            fashion_map[key].removeAt(0);
+            print(fashion_map);
+          };
+
+        // });
       });
     });
   }
@@ -51,10 +68,13 @@ class _RegisteredClothesState extends State<SuggestFashion> {
       rand_nums.add(Random().nextInt(value.length));
     });
 
-    int tops_rand = 0;
-    if (fashion_list.length > 0) {
-      tops_rand = Random().nextInt(fashion_list.length);
+    List category_rands = [];
+    for (var key in fashion_map.keys) {
+      if (fashion_map[key].length > 0) {
+        category_rands.add(Random().nextInt(fashion_map[key].length));
+      }
     }
+
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
@@ -62,10 +82,10 @@ class _RegisteredClothesState extends State<SuggestFashion> {
       ),
       body: Column(
         children: <Widget>[
-          Text(category.keys.elementAt(0)+":"+fashion_list[tops_rand]),
-          for (var i = 1; i <= 3; i++)
-            Text(category.keys.elementAt(i)+":"+category[category.keys.elementAt(i)][rand_nums[i]])
-        ],
+          //登録がない場合はランダムで提案
+          for (var i = 0; i <= 3; i++)
+            if (fashion_map[category.keys.elementAt(i)].length == 0)  ... [Text(category.keys.elementAt(i)+":"+category[category.keys.elementAt(i)][rand_nums[i]])] else Text(category.keys.elementAt(i)+":"+fashion_map[category.keys.elementAt(i)][category_rands[i]]),
+          ],
       ),
     );
   }
