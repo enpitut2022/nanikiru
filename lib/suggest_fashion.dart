@@ -73,6 +73,9 @@ class _RegisteredClothesState extends State<SuggestFashion> {
       if (fashion_map[key].length > 0) {
         category_rands.add(Random().nextInt(fashion_map[key].length));
       }
+      else{
+        category_rands.add(0);
+      }
     }
 
     // TODO: implement build
