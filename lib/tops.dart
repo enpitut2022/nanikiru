@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import 'main.dart';
+import 'first_page.dart';
 
 
 
@@ -73,6 +75,7 @@ class _FlutterDemoState extends State<FlutterDemo> {
   int tops_sentaku = 0;
   Color selectedColor = Colors.blue;
   Color pickerColor = Colors.blue;
+  bool gender = false;
 
   void _changeColor(Color color) {
     pickerColor = color;
@@ -113,6 +116,19 @@ class _FlutterDemoState extends State<FlutterDemo> {
         _counter = value;
       });
     });
+    gender = widget.storage.men;
+    if(gender == false){
+      tops = [
+        "シャツ",
+        "ニット・セーター",
+        "カーディガン",
+        "カットソー",
+        "Tシャツ",
+        "タンクトップ",
+        "ベスト",
+        "その他トップス"
+      ];
+    }
   }
 
   Future<File> _incrementCounter() {
