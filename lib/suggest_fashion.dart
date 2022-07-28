@@ -17,8 +17,12 @@ class _MyPainterTops extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // ここに描画の処理を書く
     final paint = Paint();
-    paint.color = Colors.blue;
-    canvas.drawRect(Rect.fromLTWH(0,0,50,50), paint);
+    paint.color = Colors.red;
+    const margin = 5.0;
+    canvas.drawRect(Rect.fromLTWH(0 +margin,10,100,40), paint);
+    canvas.drawRect(Rect.fromLTWH(20 +margin,30,60,70), paint);
+    paint.color = Colors.white;
+    canvas.drawRect(Rect.fromLTWH(25 +margin,9,50,10), paint);
   }
 
   // 再描画のタイミングで呼ばれるメソッド
