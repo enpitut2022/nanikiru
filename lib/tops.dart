@@ -117,29 +117,6 @@ class _FlutterDemoState extends State<FlutterDemo> {
       });
     });
     gender = widget.storage.men;
-    if(gender == false){
-      tops = [
-        "シャツ",
-        "ニット・セーター",
-        "カーディガン",
-        "カットソー",
-        "Tシャツ",
-        "タンクトップ",
-        "ベスト",
-        "その他トップス",
-
-        "シャツ・ブラウス",
-        "ニット・セーター",
-        "カーディガン",
-        "カットソー",
-        "Tシャツ",
-        "タンクトップ",
-        "キャミソール",
-        "チュニック",
-        "ベスト",
-        "その他トップス"
-      ];
-    }
   }
 
   Future<File> _incrementCounter() {

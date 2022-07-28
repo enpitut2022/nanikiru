@@ -7,16 +7,11 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import 'main.dart';
 
-void main() {
-  runApp(
-    MaterialApp(
-      title: 'Reading and Writing Files',
-      home: FlutterDemo_shoose(storage: CounterStorageshoose()),
-    ),
-  );
-}
 
 class CounterStorageshoose {
+  CounterStorageshoose(this.men);
+  bool men;
+
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
 
@@ -61,16 +56,27 @@ class FlutterDemo_shoose extends StatefulWidget {
 
 class _FlutterDemoState extends State<FlutterDemo_shoose> {
   String _counter = "";
-  List<String> shoose = [
+  List<String> tops = [
   "サンダル",
   "スニーカー",
   "ドレスシューズ",
-  "その他シューズ"
+  "その他シューズ",
+
+    "パンプス",
+    "サンダル",
+    "ブーティ",
+    "ショートブーツ",
+    "ロングブーツ",
+    "ニーハイブーツ",
+    "スニーカー",
+    "ドレスシューズ",
+    "その他シューズ"
   ];
 
-  int shoose_sentaku = 0;
+  int tops_sentaku = 0;
   Color selectedColor = Colors.blue;
   Color pickerColor = Colors.blue;
+  bool gender = false;
 
   void _changeColor(Color color) {
     pickerColor = color;
@@ -111,12 +117,120 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
         _counter = value;
       });
     });
+    gender = widget.storage.men;
   }
 
   Future<File> _incrementCounter() {
 
     // Write the variable as a string to the file.
-    return widget.storage.writeCounter(shoose[shoose_sentaku], selectedColor.value.toRadixString(16));
+    return widget.storage.writeCounter(tops[tops_sentaku], selectedColor.value.toRadixString(16));
+  }
+
+  List<Widget> _buildBody() {
+
+    List<Widget> children;
+
+    if (gender) {
+      children = <Widget>[
+        RadioListTile(
+            title: Text(tops[0]),
+            value: 0,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[1]),
+            value: 1,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[2]),
+            value: 2,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[3]),
+            value: 3,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        ElevatedButton(
+          onPressed: (){
+            _showPicker(context);
+          },
+          child: const Text('色選択'),
+
+        ),
+      ];
+    } else {
+      children = <Widget>[
+        RadioListTile(
+            title: Text(tops[4]),
+            value: 4,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[5]),
+            value: 5,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[6]),
+            value: 6,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[7]),
+            value: 7,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[8]),
+            value: 8,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[9]),
+            value: 9,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[10]),
+            value: 10,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[11]),
+            value: 11,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        RadioListTile(
+            title: Text(tops[12]),
+            value: 12,
+            groupValue: tops_sentaku,
+            onChanged: _onRadioSelected
+        ),
+        ElevatedButton(
+          onPressed: (){
+            _showPicker(context);
+          },
+          child: const Text('色選択'),
+
+        ),
+      ];
+    }
+
+    return children;
   }
 
   @override
@@ -124,36 +238,7 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          RadioListTile(
-              title: Text(shoose[0]),
-              value: 0,
-              groupValue: shoose_sentaku,
-              onChanged: _onRadioSelected
-          ),RadioListTile(
-              title: Text(shoose[1]),
-              value: 1,
-              groupValue: shoose_sentaku,
-              onChanged: _onRadioSelected
-          ),RadioListTile(
-              title: Text(shoose[2]),
-              value: 2,
-              groupValue: shoose_sentaku,
-              onChanged: _onRadioSelected
-          ),RadioListTile(
-              title: Text(shoose[3]),
-              value: 3,
-              groupValue: shoose_sentaku,
-              onChanged: _onRadioSelected
-          ),
-          ElevatedButton(
-            onPressed: (){
-              _showPicker(context);
-            },
-            child: const Text('色選択'),
-
-          ),
-        ],
+        children: _buildBody(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
@@ -165,6 +250,6 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
   }
   _onRadioSelected(value) =>
       setState(() {
-        shoose_sentaku = value;
+        tops_sentaku = value;
       });
 }

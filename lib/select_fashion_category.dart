@@ -35,7 +35,7 @@ class ThirdPage extends StatelessWidget{
           onPressed: (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FlutterDemo_bottoms(storage: CounterStorage_bottoms()) ),
+              MaterialPageRoute(builder: (context) => FlutterDemo_bottoms(storage: CounterStorage_bottoms(men)) ),
             );
           },
           child: const Text('ボトムス'),
@@ -54,7 +54,7 @@ class ThirdPage extends StatelessWidget{
             onPressed: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => FlutterDemo_dress(storage: CounterStorage_dress())),
+                MaterialPageRoute(builder: (context) => FlutterDemo_dress(storage: CounterStorage_dress(men))),
               );
             },
             child: const Text('ワンピース'),
@@ -63,7 +63,7 @@ class ThirdPage extends StatelessWidget{
             onPressed: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => FlutterDemo_shoose(storage: CounterStorageshoose())),
+                MaterialPageRoute(builder: (context) => FlutterDemo_shoose(storage: CounterStorageshoose(men))),
               );
             },
             child: const Text('シューズ'),
