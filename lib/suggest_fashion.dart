@@ -40,11 +40,33 @@ class _MyPainterBottoms extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // ここに描画の処理を書く
+    const margin = 25.0;
     final paint = Paint();
     paint.color = Colors.blue;
-    canvas.drawRect(Rect.fromLTWH(0,0,15,60), paint);
-    canvas.drawRect(Rect.fromLTWH(20,0,30,60), paint);
-    canvas.drawRect(Rect.fromLTWH(0,0,30,25), paint);
+    canvas.drawRect(Rect.fromLTWH(0+margin,0,35,36), paint);
+    canvas.drawRect(Rect.fromLTWH(35+margin,0,25,100), paint);
+    canvas.drawRect(Rect.fromLTWH(0+margin,0,25,100), paint);
+  }
+
+  // 再描画のタイミングで呼ばれるメソッド
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
+}
+
+class _MyPainterShoes extends CustomPainter {
+
+  // ※ コンストラクタに引数を持たせたい場合はこんな感じで
+  //double value;
+  //_MyPainter(this.value);
+
+  // 実際の描画処理を行うメソッド
+  @override
+  void paint(Canvas canvas, Size size) {
+    // ここに描画の処理を書く
+    final paint = Paint();
+    paint.color = Colors.brown;
+    canvas.drawRect(Rect.fromLTWH(10+5,0,35,23), paint);
+    canvas.drawRect(Rect.fromLTWH(55+5,0,35,23), paint);
   }
 
   // 再描画のタイミングで呼ばれるメソッド
@@ -91,6 +113,10 @@ class SuggestFashion extends StatelessWidget{
           CustomPaint(
             size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
             painter: _MyPainterBottoms(),
+          ),
+          CustomPaint(
+            size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
+            painter: _MyPainterShoes(),
           ),
 
         ],
