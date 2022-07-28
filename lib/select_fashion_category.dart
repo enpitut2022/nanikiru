@@ -11,6 +11,9 @@ import 'shoose.dart';
 import 'tops.dart';
 
 class ThirdPage extends StatelessWidget{
+  ThirdPage(this.men);
+  bool men;
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -23,7 +26,7 @@ class ThirdPage extends StatelessWidget{
           onPressed: (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FlutterDemo(storage: CounterStorage())),
+              MaterialPageRoute(builder: (context) => FlutterDemo(storage: CounterStorage(men))),
             );
           },
           child: const Text('トップス'),

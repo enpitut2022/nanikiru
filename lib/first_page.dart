@@ -32,7 +32,7 @@ class FirstPage extends StatelessWidget{
               onPressed: (){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ThirdPage()),
+                  MaterialPageRoute(builder: (context) => ThirdPage(men)),
                 );
               },
               child: const Text('服を登録'),

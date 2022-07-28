@@ -7,19 +7,17 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import 'main.dart';
 
-void main() {
-  runApp(
-    MaterialApp(
-      title: 'Reading and Writing Files',
-      home: FlutterDemo(storage: CounterStorage()),
-    ),
-  );
-}
+
 
 class CounterStorage {
+  CounterStorage(this.men);
+  bool men;
+
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
 
+
+    print(men);
     return directory.path;
   }
 
