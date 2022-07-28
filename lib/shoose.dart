@@ -39,11 +39,11 @@ class CounterStorageshoose {
     }
   }
 
-  Future<File> writeCounter(String counter, String color) async {
+  Future<File> writeCounter(String counter, String color, List<String> tag) async {
     final file = await _localFile;
 
     // Write the file
-    return file.writeAsString("shoes" + ',' + counter + ',' + color + '\n' ,mode:FileMode.append);
+    return file.writeAsString("shoes" + ',' + counter + ',' + color + ',' + tag.toString() + '\n' ,mode:FileMode.append);
   }
 }
 
@@ -134,7 +134,7 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
   Future<File> _incrementCounter() {
 
     // Write the variable as a string to the file.
-    return widget.storage.writeCounter(tops_sentaku, selectedColor.value.toRadixString(16));
+    return widget.storage.writeCounter(tops_sentaku, selectedColor.value.toRadixString(16), selectedTags.toList());
   }
 
   List<Widget> _buildBody() {
