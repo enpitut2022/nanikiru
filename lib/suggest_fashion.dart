@@ -6,7 +6,51 @@ import 'dart:async';
 import 'dart:convert';
 import '../utils/constants.dart';
 
+class _MyPainterTops extends CustomPainter {
+
+  // ※ コンストラクタに引数を持たせたい場合はこんな感じで
+  //double value;
+  //_MyPainter(this.value);
+
+  // 実際の描画処理を行うメソッド
+  @override
+  void paint(Canvas canvas, Size size) {
+    // ここに描画の処理を書く
+    final paint = Paint();
+    paint.color = Colors.blue;
+    canvas.drawRect(Rect.fromLTWH(0,0,50,50), paint);
+  }
+
+  // 再描画のタイミングで呼ばれるメソッド
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
+}
+
+class _MyPainterBottoms extends CustomPainter {
+
+  // ※ コンストラクタに引数を持たせたい場合はこんな感じで
+  //double value;
+  //_MyPainter(this.value);
+
+  // 実際の描画処理を行うメソッド
+  @override
+  void paint(Canvas canvas, Size size) {
+    // ここに描画の処理を書く
+    final paint = Paint();
+    paint.color = Colors.blue;
+    canvas.drawRect(Rect.fromLTWH(0,0,15,60), paint);
+    canvas.drawRect(Rect.fromLTWH(20,0,30,60), paint);
+    canvas.drawRect(Rect.fromLTWH(0,0,30,25), paint);
+  }
+
+  // 再描画のタイミングで呼ばれるメソッド
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
+}
+
+
 class SuggestFashion extends StatelessWidget{
+
   SuggestFashion(this.men);
   bool men;
   Map men_category = Constants().men_category;
@@ -35,7 +79,16 @@ class SuggestFashion extends StatelessWidget{
       body: Column(
         children: <Widget>[
           for (var i = 0; i <= 3; i++)
-            Text(category.keys.elementAt(i)+":"+category[category.keys.elementAt(i)][rand_nums[i]])
+            Text(category.keys.elementAt(i)+":"+category[category.keys.elementAt(i)][rand_nums[i]]),
+          CustomPaint(
+            size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
+            painter: _MyPainterTops(),
+          ),
+          CustomPaint(
+            size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
+            painter: _MyPainterBottoms(),
+          ),
+
         ],
       ),
     );
