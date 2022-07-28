@@ -54,30 +54,13 @@ class ThirdPage extends StatelessWidget{
             onPressed: (){
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => FlutterDemo_dress(storage: CounterStorage_dress(men))),
-              );
-            },
-            child: const Text('ワンピース'),
-
-          ), ElevatedButton(
-            onPressed: (){
-              Navigator.push(
-                context,
                 MaterialPageRoute(builder: (context) => FlutterDemo_shoose(storage: CounterStorageshoose(men))),
               );
             },
             child: const Text('シューズ'),
 
-          ), ElevatedButton(
-            onPressed: (){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => FlutterDemo_accessories(storage: CounterStorageaccessories(men))),
-              );
-            },
-            child: const Text('アクセサリー'),
-
-          )],
+          ),
+        ],
 
       ),
     );
