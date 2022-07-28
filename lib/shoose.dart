@@ -20,7 +20,7 @@ class CounterStorageshoose {
 
   Future<File> get _localFile async {
     final path = await _localPath;
-    return File('$path/shoose.txt');
+    return File('$path/counter3.txt');
   }
 
   Future<String> readCounter() async {
