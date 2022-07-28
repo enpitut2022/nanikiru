@@ -64,20 +64,24 @@ class _GenderState extends State<RadioButtonWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
         children: [
-          SizedBox(height: 50.0,),
+          SizedBox(width:150, height: 50.0, child:
           RadioListTile(
-            title: Text('男性'),
+            title: Text('メンズ'),
             value: true,
             groupValue: men,
-            onChanged: (value) => _onRadioSelected(value),
+            onChanged: (value) => _onRadioSelected(value)
           ),
+
+    ),
+          SizedBox(width:150, height: 50.0, child:
           RadioListTile(
-            title: Text('女性'),
-            value: false,
-            groupValue: men,
-            onChanged: (value) => _onRadioSelected(value),
+              title: Text('レディース'),
+              value: false,
+              groupValue: men,
+              onChanged: (value) => _onRadioSelected(value)
+          ),
           ),
         ]
     );
