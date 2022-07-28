@@ -1,14 +1,13 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:nanikiru/utils/constants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'utils/constants.dart';
 
 import 'main.dart';
-import 'first_page.dart';
-
 
 
 class CounterStorage {
@@ -18,8 +17,6 @@ class CounterStorage {
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
 
-
-    print(men);
     return directory.path;
   }
 
@@ -42,11 +39,11 @@ class CounterStorage {
     }
   }
 
-  Future<File> writeCounter(String counter, String color) async {
+  Future<File> writeCounter(String counter, String color, List<String> tag) async {
     final file = await _localFile;
 
     // Write the file
-    return file.writeAsString("tops" + ',' + counter + ',' + color + '\n' ,mode:FileMode.append);
+    return file.writeAsString("tops" + ',' + counter + ',' + color + ',' + tag.toString() + '\n' ,mode:FileMode.append);
   }
 }
 
@@ -61,21 +58,20 @@ class FlutterDemo extends StatefulWidget {
 
 class _FlutterDemoState extends State<FlutterDemo> {
   String _counter = "";
-  List<String> tops = [
-    "シャツ",
-    "ニット・セーター",
-    "カーディガン",
-    "カットソー",
-    "Tシャツ",
-    "タンクトップ",
-    "ベスト",
-    "その他トップス"
+  Map men_category = Constants().men_category;
+  Map women_category = Constants().women_category;
+  final tags = [
+    "春",
+    "夏",
+    "秋",
+    "冬"
   ];
-
-  int tops_sentaku = 0;
+  var selectedTags = <String>[];
+  String tops_sentaku = "サンダル";
   Color selectedColor = Colors.blue;
   Color pickerColor = Colors.blue;
   bool gender = false;
+
 
   void _changeColor(Color color) {
     pickerColor = color;
@@ -117,12 +113,17 @@ class _FlutterDemoState extends State<FlutterDemo> {
       });
     });
     gender = widget.storage.men;
+    if (gender){
+      tops_sentaku = men_category['tops'][0];
+    }else{
+      tops_sentaku = women_category['tops'][0];
+    }
   }
 
   Future<File> _incrementCounter() {
 
     // Write the variable as a string to the file.
-    return widget.storage.writeCounter(tops[tops_sentaku], selectedColor.value.toRadixString(16));
+    return widget.storage.writeCounter(tops_sentaku, selectedColor.value.toRadixString(16), selectedTags.toList());
   }
 
   List<Widget> _buildBody() {
@@ -132,50 +133,50 @@ class _FlutterDemoState extends State<FlutterDemo> {
     if (gender) {
       children = <Widget>[
         RadioListTile(
-            title: Text(tops[0]),
-            value: 0,
+            title: Text(men_category['tops'][0]),
+            value: men_category['tops'][0],
             groupValue: tops_sentaku,
             onChanged: _onRadioSelected
         ),
         RadioListTile(
-            title: Text(tops[1]),
-            value: 1,
+            title: Text(men_category['tops'][1]),
+            value: men_category['tops'][1],
             groupValue: tops_sentaku,
             onChanged: _onRadioSelected
         ),
         RadioListTile(
-            title: Text(tops[2]),
-            value: 2,
+            title: Text(men_category['tops'][2]),
+            value: men_category['tops'][2],
             groupValue: tops_sentaku,
             onChanged: _onRadioSelected
         ),
         RadioListTile(
-            title: Text(tops[3]),
-            value: 3,
+            title: Text(men_category['tops'][3]),
+            value: men_category['tops'][3],
             groupValue: tops_sentaku,
             onChanged: _onRadioSelected
         ),
         RadioListTile(
-            title: Text(tops[4]),
-            value: 4,
+            title: Text(men_category['tops'][4]),
+            value: men_category['tops'][4],
             groupValue: tops_sentaku,
             onChanged: _onRadioSelected
         ),
         RadioListTile(
-            title: Text(tops[5]),
-            value: 5,
+            title: Text(men_category['tops'][5]),
+            value: men_category['tops'][5],
             groupValue: tops_sentaku,
             onChanged: _onRadioSelected
         ),
         RadioListTile(
-            title: Text(tops[6]),
-            value: 6,
+            title: Text(men_category['tops'][6]),
+            value: men_category['tops'][6],
             groupValue: tops_sentaku,
             onChanged: _onRadioSelected
         ),
         RadioListTile(
-            title: Text(tops[7]),
-            value: 7,
+            title: Text(men_category['tops'][7]),
+            value: men_category['tops'][7],
             groupValue: tops_sentaku,
             onChanged: _onRadioSelected
         ),
@@ -184,68 +185,133 @@ class _FlutterDemoState extends State<FlutterDemo> {
             _showPicker(context);
           },
           child: const Text('色選択'),
-
+        ),
+        Wrap(
+          runSpacing: 16,
+          spacing: 16,
+          children: tags.map((tag) {
+            // selectedTags の中に自分がいるかを確かめる
+            final isSelected = selectedTags.contains(tag);
+            return InkWell(
+              borderRadius: const BorderRadius.all(Radius.circular(32)),
+              onTap: () {
+                if (isSelected) {
+                  // すでに選択されていれば取り除く
+                  selectedTags.remove(tag);
+                } else {
+                  // 選択されていなければ追加する
+                  selectedTags.add(tag);
+                }
+                setState(() {});
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(32)),
+                  border: Border.all(
+                    width: 2,
+                    color: Colors.pink,
+                  ),
+                  color: isSelected ? Colors.pink : null,
+                ),
+                child: Text(
+                  tag,
+                  style: TextStyle(
+                    color: isSelected ? Colors.white : Colors.pink,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+        Expanded(
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    selectedTags.clear();
+                    setState(() {});
+                  },
+                  child: const Text('クリア'),
+                ),
+                const SizedBox(width: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    // deep copy する方法
+                    // selectedTags = tags だと参照を渡したことにしかならない
+                    selectedTags = List.of(tags);
+                    setState(() {});
+                  },
+                  child: const Text('ぜんぶ'),
+                ),
+              ],
+            ),
+          ),
         ),
       ];
     } else {
       children = <Widget>[
         RadioListTile(
-            title: Text(tops[8]),
-            value: 8,
+            title: Text(women_category['tops'][0]),
+            value: women_category['tops'][0],
             groupValue: tops_sentaku,
             onChanged: _onRadioSelected
         ),
         RadioListTile(
-            title: Text(tops[9]),
-            value: 9,
+            title: Text(women_category['tops'][1]),
+            value: women_category['tops'][1],
             groupValue: tops_sentaku,
             onChanged: _onRadioSelected
         ),
         RadioListTile(
-            title: Text(tops[10]),
-            value: 10,
+            title: Text(women_category['tops'][2]),
+            value: women_category['tops'][2],
             groupValue: tops_sentaku,
             onChanged: _onRadioSelected
         ),
         RadioListTile(
-            title: Text(tops[11]),
-            value: 11,
+            title: Text(women_category['tops'][3]),
+            value: women_category['tops'][3],
             groupValue: tops_sentaku,
             onChanged: _onRadioSelected
         ),
         RadioListTile(
-            title: Text(tops[12]),
-            value: 12,
+            title: Text(women_category['tops'][4]),
+            value: women_category['tops'][4],
             groupValue: tops_sentaku,
             onChanged: _onRadioSelected
         ),
         RadioListTile(
-            title: Text(tops[13]),
-            value: 13,
+            title: Text(women_category['tops'][5]),
+            value: women_category['tops'][5],
             groupValue: tops_sentaku,
             onChanged: _onRadioSelected
         ),
         RadioListTile(
-            title: Text(tops[14]),
-            value: 14,
+            title: Text(women_category['tops'][6]),
+            value: women_category['tops'][6],
             groupValue: tops_sentaku,
             onChanged: _onRadioSelected
         ),
         RadioListTile(
-            title: Text(tops[15]),
-            value: 15,
+            title: Text(women_category['tops'][7]),
+            value: women_category['tops'][7],
             groupValue: tops_sentaku,
             onChanged: _onRadioSelected
         ),
         RadioListTile(
-            title: Text(tops[16]),
-            value: 16,
+            title: Text(women_category['tops'][8]),
+            value: women_category['tops'][8],
             groupValue: tops_sentaku,
             onChanged: _onRadioSelected
         ),
         RadioListTile(
-            title: Text(tops[17]),
-            value: 17,
+            title: Text(women_category['tops'][9]),
+            value: women_category['tops'][9],
             groupValue: tops_sentaku,
             onChanged: _onRadioSelected
         ),
@@ -255,6 +321,71 @@ class _FlutterDemoState extends State<FlutterDemo> {
           },
           child: const Text('色選択'),
 
+        ), Wrap(
+          runSpacing: 16,
+          spacing: 16,
+          children: tags.map((tag) {
+            // selectedTags の中に自分がいるかを確かめる
+            final isSelected = selectedTags.contains(tag);
+            return InkWell(
+              borderRadius: const BorderRadius.all(Radius.circular(32)),
+              onTap: () {
+                if (isSelected) {
+                  // すでに選択されていれば取り除く
+                  selectedTags.remove(tag);
+                } else {
+                  // 選択されていなければ追加する
+                  selectedTags.add(tag);
+                }
+                setState(() {});
+              },
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(32)),
+                  border: Border.all(
+                    width: 2,
+                    color: Colors.pink,
+                  ),
+                  color: isSelected ? Colors.pink : null,
+                ),
+                child: Text(
+                  tag,
+                  style: TextStyle(
+                    color: isSelected ? Colors.white : Colors.pink,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+        Expanded(
+          child: Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    selectedTags.clear();
+                    setState(() {});
+                  },
+                  child: const Text('クリア'),
+                ),
+                const SizedBox(width: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    // deep copy する方法
+                    // selectedTags = tags だと参照を渡したことにしかならない
+                    selectedTags = List.of(tags);
+                    setState(() {});
+                  },
+                  child: const Text('ぜんぶ'),
+                ),
+              ],
+            ),
+          ),
         ),
       ];
     }
@@ -265,11 +396,11 @@ class _FlutterDemoState extends State<FlutterDemo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: _buildBody(),
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',

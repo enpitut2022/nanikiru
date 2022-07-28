@@ -60,22 +60,6 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
   String _counter = "";
   Map men_category = Constants().men_category;
   Map women_category = Constants().women_category;
-  List<String> tops = [
-  "サンダル",
-  "スニーカー",
-  "ドレスシューズ",
-  "その他シューズ",
-
-    "パンプス",
-    "サンダル",
-    "ブーティ",
-    "ショートブーツ",
-    "ロングブーツ",
-    "ニーハイブーツ",
-    "スニーカー",
-    "ドレスシューズ",
-    "その他シューズ"
-  ];
   final tags = [
     "春",
     "夏",
@@ -129,6 +113,11 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
       });
     });
     gender = widget.storage.men;
+    if (gender){
+      tops_sentaku = men_category['shoes'][0];
+    }else{
+      tops_sentaku = women_category['shoes'][0];
+    }
   }
 
   Future<File> _incrementCounter() {
