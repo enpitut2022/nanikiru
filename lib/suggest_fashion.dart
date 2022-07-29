@@ -23,7 +23,7 @@ class _MyPainterBody extends CustomPainter {
 
   // 表示の調整に使う変数
   // 左側の描画のマージン
-  final leftmargin = 30.0;
+  final leftmargin = 50.0;
   // トップスのサイズ
   final topssize = 100.0;
   // ボトムスのサイズ
@@ -85,16 +85,30 @@ class _MyPainterBody extends CustomPainter {
     paint.color = Color(int.parse(outercolor, radix: 16));
     canvas.drawRect(Rect.fromLTWH(0 +device_width -leftmargin -100, 9 ,40,150), paint);
     canvas.drawRect(Rect.fromLTWH(60+device_width -leftmargin -100, 9, 40,150), paint);
+    // var pathleft = Path();
+    // pathleft.moveTo(0 +device_width -leftmargin -100, 9);
+    // pathleft.lineTo(-15 +device_width -leftmargin -100, 155);
+    // pathleft.lineTo(0 +device_width -leftmargin -100, 155);
+    // pathleft.close();
+    // canvas.drawPath(pathleft, paint);
+    // var pathright = Path();
+    // pathright.moveTo(100 +device_width -leftmargin -100, 9);
+    // pathright.lineTo(115 +device_width -leftmargin -100, 155);
+    // pathright.lineTo(100 +device_width -leftmargin -100, 155);
+    // pathright.close();
+    // canvas.drawPath(pathright, paint);
     var pathleft = Path();
     pathleft.moveTo(0 +device_width -leftmargin -100, 9);
-    pathleft.lineTo(-15 +device_width -leftmargin -100, 155);
-    pathleft.lineTo(0 +device_width -leftmargin -100, 155);
+    pathleft.lineTo(-25 +device_width -leftmargin -100, 125);
+    pathleft.lineTo(-5 +device_width -leftmargin -100, 130);
+    pathleft.lineTo(20 +device_width -leftmargin -100, 14);
     pathleft.close();
     canvas.drawPath(pathleft, paint);
     var pathright = Path();
     pathright.moveTo(100 +device_width -leftmargin -100, 9);
-    pathright.lineTo(115 +device_width -leftmargin -100, 155);
-    pathright.lineTo(100 +device_width -leftmargin -100, 155);
+    pathright.lineTo(125 +device_width -leftmargin -100, 125);
+    pathright.lineTo(105 +device_width -leftmargin -100, 130);
+    pathright.lineTo(80 +device_width -leftmargin -100, 14);
     pathright.close();
     canvas.drawPath(pathright, paint);
 
