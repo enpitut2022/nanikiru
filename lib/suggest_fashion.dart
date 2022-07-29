@@ -92,7 +92,11 @@ class SuggestFashion extends StatefulWidget {
 
 class Closet {
   Map fashion_map = {'tops':[''], 'bottoms':[''], 'outer':[''], 'shoes':['']};
+  Map fashion_display = {'tops':[], 'bottoms':[], 'outer':[], 'shoes':[]};
   Map color_map = {'tops':[''], 'bottoms':[''], 'outer':[''], 'shoes':['']};
+  Map color_display = {'tops':[], 'bottoms':[], 'outer':[], 'shoes':[]};
+  Map season_map = {'tops':[], 'bottoms':[], 'outer':[], 'shoes':[]};
+  Map season_match = {'tops':[], 'bottoms':[], 'outer':[], 'shoes':[]};
   List rand_nums = [0, 0, 0, 0];
   List category_rands = [0, 0, 0, 0];
   List colors = ['ff000000', 'ff000000', 'ff000000', 'ff000000'];
@@ -106,25 +110,50 @@ class Closet {
       item_information = fashion_list[i].split(',');
       fashion_map[item_information[0]].add(item_information[1]);
       color_map[item_information[0]].add(item_information[2]);
+      List tags = item_information.sublist(3);
+      for (var i = 0; i < tags.length; i++){
+        tags[i] = tags[i].replaceAll('[', '');
+        tags[i] = tags[i].replaceAll(']', '');
+        tags[i] = tags[i].replaceAll(' ', '');
+      }
+      season_map[item_information[0]].add(tags);
+      season_match[item_information[0]].add(true);
     }
     for (var key in fashion_map.keys) {
       fashion_map[key].removeAt(0);
       color_map[key].removeAt(0);
     }
   }
-
-  void randomSuggestion(category){
-    for (var i = 0; i <= 3; i++) {
-      if (fashion_map[category.keys.elementAt(i)].length != 0) {
-        category_rands[i] = Random().nextInt(fashion_map.values.elementAt(i).length);
-        colors[i] = color_map[category.keys.elementAt(i)][category_rands[i]];
-      }
-      else{
-        rand_nums[i] = Random().nextInt(category.values.elementAt(i).length);
+  void seasonSelected(season){
+    fashion_display = {'tops':[], 'bottoms':[], 'outer':[], 'shoes':[]};
+    color_display = {'tops':[], 'bottoms':[], 'outer':[], 'shoes':[]};
+    for (var s in season){
+      for (var key in season_match.keys){
+        int i = 0;
+        for (var cloth_season in season_map[key]){
+          bool display = cloth_season.contains(s);
+          if (display){
+            fashion_display[key].add(fashion_map[key][i]);
+            color_display[key].add(color_map[key][i]);
+          }
+          i += 1;
+        }
       }
     }
   }
 
+  void randomSuggestion(category){
+    for (var i = 0; i <= 3; i++) {
+      if (fashion_display[category.keys.elementAt(i)].length != 0) {
+        category_rands[i] = Random().nextInt(fashion_display.values.elementAt(i).length);
+        colors[i] = color_display[category.keys.elementAt(i)][category_rands[i]];
+      }
+      else{
+        rand_nums[i] = Random().nextInt(category.values.elementAt(i).length);
+        colors[i] = 'ff000000';
+      }
+    }
+  }
 }
 
 class _RegisteredClothesState extends State<SuggestFashion> {
@@ -155,6 +184,7 @@ class _RegisteredClothesState extends State<SuggestFashion> {
     widget.storage.readCounter().then((value) {
       setState(() {
         closet.registerClothes(value);
+        closet.seasonSelected(['春', '夏', '秋', '冬']);
         closet.randomSuggestion(category);
       });
     });
@@ -164,6 +194,20 @@ class _RegisteredClothesState extends State<SuggestFashion> {
   @override
   Widget build(BuildContext context) {
 
+    List<TableRow> table_widget = [];
+    final List fashion_type = ['トップス', 'ボトムス', 'アウター', 'シューズ'];
+    for (var i = 0; i <= 3; i++) {
+      List<Widget> row_widget = [];
+      row_widget.add(Text(fashion_type[i]));
+      if (closet.fashion_display[category.keys.elementAt(i)].length == 0) {
+        row_widget.add(Text(category[category.keys.elementAt(i)][closet.rand_nums[i]]));
+      }
+      else{
+        row_widget.add(Text(closet.fashion_display[category.keys.elementAt(i)][closet.category_rands[i]]));
+      }
+      table_widget.add(TableRow(children: row_widget));
+    }
+
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
@@ -172,8 +216,6 @@ class _RegisteredClothesState extends State<SuggestFashion> {
       body: Column(
         children: <Widget>[
           //登録がない場合はランダムで提案
-          for (var i = 0; i <= 3; i++)
-            if (closet.fashion_map[category.keys.elementAt(i)].length == 0)  ... [Text(category.keys.elementAt(i)+":"+category[category.keys.elementAt(i)][closet.rand_nums[i]])] else Text(category.keys.elementAt(i)+":"+closet.fashion_map[category.keys.elementAt(i)][closet.category_rands[i]]),
           CustomPaint(
             size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
             painter: _MyPainterTops(closet.colors[0]),
@@ -198,11 +240,18 @@ class _RegisteredClothesState extends State<SuggestFashion> {
                   if (isSelected) {
                     // すでに選択されていれば取り除く
                     selectedTags.remove(tag);
+                    setState(() {
+                      closet.seasonSelected(selectedTags);
+                      closet.randomSuggestion(category);
+                    });
                   } else {
                   // 選択されていなければ追加する
                     selectedTags.add(tag);
+                    setState(() {
+                      closet.seasonSelected(selectedTags);
+                      closet.randomSuggestion(category);
+                    });
                 }
-                setState(() {});
               },
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
@@ -227,45 +276,12 @@ class _RegisteredClothesState extends State<SuggestFashion> {
             }).toList(),
 
           ),
-            Expanded(
-            child: Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      selectedTags.clear();
-                      setState(() {});
-                    },
-                    child: const Text('クリア'),
-                  ),
-                  const SizedBox(width: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      // deep copy する方法
-                      // selectedTags = tags だと参照を渡したことにしかならない
-                      selectedTags = List.of(tags);
-                      setState(() {});
-                    },
-                    child: const Text('ぜんぶ'),
-                  ),
-
-                  ElevatedButton(
-                    onPressed: () {
-                    },
-                    child: Text(
-                      "絞り込む",
-                      style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.pink, //ボタンの背景色
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          Table(
+            children: table_widget
+          ),
+          OutlinedButton(
+            onPressed: (){setState(() {closet.randomSuggestion(category);});},
+            child: Text('もう一度提案'),
           ),
         ],
       ),
