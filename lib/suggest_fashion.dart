@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'dart:math';
 import 'dart:async';
 import 'dart:convert';
@@ -333,17 +334,19 @@ class _RegisteredClothesState extends State<SuggestFashion> {
 
   @override
   Widget build(BuildContext context) {
+    final device_width = MediaQuery.of(context).size.width;
+    final device_height = MediaQuery.of(context).size.height;
 
     List<TableRow> table_widget = [];
     final List fashion_type = ['トップス', 'ボトムス', 'アウター', 'シューズ'];
     for (var i = 0; i <= 3; i++) {
       List<Widget> row_widget = [];
-      row_widget.add(Text(fashion_type[i]));
+      row_widget.add(Text(fashion_type[i], textAlign: TextAlign.center,));
       if (closet.fashion_display[category.keys.elementAt(i)].length == 0) {
-        row_widget.add(Text(category[category.keys.elementAt(i)][closet.rand_nums[i]]));
+        row_widget.add(Text(category[category.keys.elementAt(i)][closet.rand_nums[i]], textAlign: TextAlign.center,));
       }
       else{
-        row_widget.add(Text(closet.fashion_display[category.keys.elementAt(i)][closet.category_rands[i]]));
+        row_widget.add(Text(closet.fashion_display[category.keys.elementAt(i)][closet.category_rands[i]], textAlign: TextAlign.center,));
       }
       table_widget.add(TableRow(children: row_widget));
     }
@@ -356,65 +359,80 @@ class _RegisteredClothesState extends State<SuggestFashion> {
       body: Column(
         children: <Widget>[
           //登録がない場合はランダムで提案
-          CustomPaint(
-            size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
-            painter: _MyPainterBody(colors[0], colors[1], colors[2], colors[3], device_width, device_height),
+          Container(
+            child: CustomPaint(
+              size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
+              painter: _MyPainterBody(closet.colors[0], closet.colors[1], closet.colors[2], closet.colors[3], device_width, device_height),
+            ),
           ),
-          Wrap(
-            runSpacing: 16,
-            spacing: 16,
-            children: tags.map((tag) {
-              // selectedTags の中に自分がいるかを確かめる
-              final isSelected = selectedTags.contains(tag);
-              return InkWell(
-                borderRadius: const BorderRadius.all(Radius.circular(32)),
-                onTap: () {
-                  if (isSelected) {
-                    // すでに選択されていれば取り除く
-                    selectedTags.remove(tag);
-                    setState(() {
-                      closet.seasonSelected(selectedTags);
-                      closet.randomSuggestion(category);
-                    });
-                  } else {
-                    // 選択されていなければ追加する
-                    selectedTags.add(tag);
-                    setState(() {
-                      closet.seasonSelected(selectedTags);
-                      closet.randomSuggestion(category);
-                    });
-                  }
-                },
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(32)),
-                    border: Border.all(
-                      width: 2,
-                      color: Colors.pink,
+          Container(
+            padding: EdgeInsets.only(top: 200),
+            child: Wrap(
+              runSpacing: 16,
+              spacing: 16,
+              children: tags.map((tag) {
+                // selectedTags の中に自分がいるかを確かめる
+                final isSelected = selectedTags.contains(tag);
+                return InkWell(
+                  borderRadius: const BorderRadius.all(Radius.circular(32)),
+                  onTap: () {
+                    if (isSelected) {
+                      // すでに選択されていれば取り除く
+                      selectedTags.remove(tag);
+                      setState(() {
+                        closet.seasonSelected(selectedTags);
+                        closet.randomSuggestion(category);
+                      });
+                    } else {
+                      // 選択されていなければ追加する
+                      selectedTags.add(tag);
+                      setState(() {
+                        closet.seasonSelected(selectedTags);
+                        closet.randomSuggestion(category);
+                      });
+                    }
+                  },
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(32)),
+                      border: Border.all(
+                        width: 2,
+                        color: Colors.pink,
+                      ),
+                      color: isSelected ? Colors.pink : null,
                     ),
-                    color: isSelected ? Colors.pink : null,
-                  ),
-                  child: Text(
-                    tag,
-                    style: TextStyle(
-                      color: isSelected ? Colors.white : Colors.pink,
-                      fontWeight: FontWeight.bold,
+                    child: Text(
+                      tag,
+                      style: TextStyle(
+                        color: isSelected ? Colors.white : Colors.pink,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
+                );
+              }).toList(),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 30),
+            child: Table(
+                border: TableBorder(
+                    horizontalInside: BorderSide(width: 1, color: Colors.blue, style: BorderStyle.solid),
+                    // verticalInside: BorderSide(width: 1, color: Colors.blue, style: BorderStyle.solid)
                 ),
-              );
-            }).toList(),
+                children: table_widget
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.only(top: 30),
+            child: OutlinedButton(
+              onPressed: (){setState(() {closet.randomSuggestion(category);});},
+              child: Text('もう一度提案'),
+            ),
+          ),
 
-          ),
-          Table(
-              children: table_widget
-          ),
-          OutlinedButton(
-            onPressed: (){setState(() {closet.randomSuggestion(category);});},
-            child: Text('もう一度提案'),
-          ),
         ],
       ),
     );
