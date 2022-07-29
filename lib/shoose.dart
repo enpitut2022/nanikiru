@@ -22,7 +22,7 @@ class CounterStorageshoose {
 
   Future<File> get _localFile async {
     final path = await _localPath;
-    return File('$path/counter3.txt');
+    return File('$path/counter5.txt');
   }
 
   Future<String> readCounter() async {
@@ -131,30 +131,19 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
     List<Widget> children;
 
     if (gender) {
+      final List<String> lists = men_category['shoes'].cast<String>() as List<String>;
       children = <Widget>[
-        RadioListTile(
-            title: Text(men_category['shoes'][0]),
-            value: men_category['shoes'][0],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(men_category['shoes'][1]),
-            value: men_category['shoes'][1],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(men_category['shoes'][2]),
-            value: men_category['shoes'][2],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(men_category['shoes'][3]),
-            value: men_category['shoes'][3],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
+        DropdownButton<String>(
+          value: tops_sentaku,
+          items: lists
+              .map((String list) =>
+              DropdownMenuItem(value: list, child: Text(list)))
+              .toList(),
+          onChanged: (String? value) {
+            setState(() {
+              _onRadioSelected(value);
+            });
+          },
         ),
         ElevatedButton(
           onPressed: (){
@@ -230,36 +219,19 @@ class _FlutterDemoState extends State<FlutterDemo_shoose> {
     ),
     ];
     } else {
+      final List<String> lists = women_category['shoes'].cast<String>() as List<String>;
       children = <Widget>[
-        RadioListTile(
-            title: Text(women_category['shoes'][0]),
-            value: women_category['shoes'][0],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(women_category['shoes'][1]),
-            value: women_category['shoes'][1],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(women_category['shoes'][2]),
-            value: women_category['shoes'][2],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(women_category['shoes'][3]),
-            value: women_category['shoes'][3],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(women_category['shoes'][4]),
-            value: women_category['shoes'][4],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
+        DropdownButton<String>(
+          value: tops_sentaku,
+          items: lists
+              .map((String list) =>
+              DropdownMenuItem(value: list, child: Text(list)))
+              .toList(),
+          onChanged: (String? value) {
+            setState(() {
+              _onRadioSelected(value);
+            });
+          },
         ),
         ElevatedButton(
           onPressed: (){
