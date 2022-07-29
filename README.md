@@ -1,4 +1,4 @@
-# NANIKIRU
+# ナニキル
 
 チーム名: enjoy勢
 
