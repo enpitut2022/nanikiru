@@ -1,4 +1,4 @@
-# NANIKIRU
+# nanikiru
 
 チーム名: enjoy勢
 
