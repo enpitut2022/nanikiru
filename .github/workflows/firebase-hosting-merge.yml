@@ -12,7 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-
       - name: Install Flutter
         run: git clone https://github.com/flutter/flutter.git
 
