@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:nanikiru/alert.dart';
 import 'package:nanikiru/dress.dart';
 import 'package:nanikiru/utils/constants.dart';
 import 'package:path_provider/path_provider.dart';
@@ -315,14 +316,22 @@ class _FlutterDemoState extends State<FlutterDemo_bottoms> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      appBar: AppBar(
+        title: const Text('NANIKIRU'),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: _buildBody(),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: () {
+          _incrementCounter();
+          showDialog<void>(
+              context: context,
+              builder: (_) {
+                return AlertDialogSample();
+              });
+        },        tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
 

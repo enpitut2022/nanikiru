@@ -27,7 +27,7 @@ class ThirdPage extends StatelessWidget{
           onPressed: (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => FlutterDemo(storage: CounterStorage(men))),
+              MaterialPageRoute(builder: (context) => FlutterDemo(storage: ClothesStorage(men))),
             );
           },
           child: const Text('トップス'),

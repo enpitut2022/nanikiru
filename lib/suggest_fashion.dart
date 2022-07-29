@@ -7,7 +7,7 @@ import 'dart:async';
 import 'dart:convert';
 import '../utils/constants.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:nanikiru/fahion_list.dart';
+import 'package:nanikiru/tops.dart';
 import 'dart:developer' as developer;
 
 class _MyPainterBody extends CustomPainter {
@@ -222,7 +222,7 @@ class _MyPainterBody extends CustomPainter {
 class SuggestFashion extends StatefulWidget {
   SuggestFashion(this.men, {super.key, required this.storage});
 
-  final CounterStorage2 storage;
+  final ClothesStorage storage;
   final bool men;
 
   @override

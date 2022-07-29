@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nanikiru/fahion_list.dart';
 import 'package:nanikiru/suggest_fashion.dart';
 import 'tops.dart';
 import 'next_page.dart';
 import 'select_fashion_category.dart';
 import 'select_view_register_fashion.dart';
+import 'package:nanikiru/tops.dart';
 
 bool men = true;
 
@@ -26,7 +26,7 @@ class FirstPage extends StatelessWidget{
               onPressed: (){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SuggestFashion(men, storage: CounterStorage(men))),
+                  MaterialPageRoute(builder: (context) => SuggestFashion(men, storage: ClothesStorage(men))),
                 );
               },
               child: const Text('候補のファッションを見る'),

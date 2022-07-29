@@ -6,12 +6,12 @@ import 'package:nanikiru/utils/constants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'utils/constants.dart';
-
+import 'package:nanikiru/alert.dart';
 import 'main.dart';
 
 
-class CounterStorage {
-  CounterStorage(this.men);
+class ClothesStorage {
+  ClothesStorage(this.men);
   bool men;
 
   Future<String> get _localPath async {
@@ -50,7 +50,7 @@ class CounterStorage {
 class FlutterDemo extends StatefulWidget {
   const FlutterDemo({super.key, required this.storage});
 
-  final CounterStorage storage;
+  final ClothesStorage storage;
 
   @override
   State<FlutterDemo> createState() => _FlutterDemoState();
@@ -314,13 +314,22 @@ class _FlutterDemoState extends State<FlutterDemo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      appBar: AppBar(
+        title: const Text('NANIKIRU'),
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: _buildBody(),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          _incrementCounter();
+          showDialog<void>(
+              context: context,
+              builder: (_) {
+                return AlertDialogSample();
+              });
+        },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
