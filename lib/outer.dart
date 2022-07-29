@@ -9,7 +9,6 @@ import 'utils/constants.dart';
 
 import 'main.dart';
 
-
 class CounterStorage_outer {
   CounterStorage_outer(this.men);
   bool men;
