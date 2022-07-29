@@ -9,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:nanikiru/fahion_list.dart';
 import 'dart:developer' as developer;
 
+
 class _MyPainterTops extends CustomPainter {
 
   // ※ コンストラクタに引数を持たせたい場合はこんな感じで
@@ -133,6 +134,14 @@ class _RegisteredClothesState extends State<SuggestFashion> {
   Map women_category = Constants().women_category;
   Map category = {};
 
+  final tags = [
+    "春",
+    "夏",
+    "秋",
+    "冬"
+  ];
+  var selectedTags = <String>[];
+
   @override
   void initState() {
     super.initState();
@@ -176,6 +185,87 @@ class _RegisteredClothesState extends State<SuggestFashion> {
           CustomPaint(
             size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
             painter: _MyPainterShoes(closet.colors[3]),
+          ),
+          Wrap(
+            runSpacing: 16,
+            spacing: 16,
+            children: tags.map((tag) {
+              // selectedTags の中に自分がいるかを確かめる
+              final isSelected = selectedTags.contains(tag);
+              return InkWell(
+                borderRadius: const BorderRadius.all(Radius.circular(32)),
+                onTap: () {
+                  if (isSelected) {
+                    // すでに選択されていれば取り除く
+                    selectedTags.remove(tag);
+                  } else {
+                  // 選択されていなければ追加する
+                    selectedTags.add(tag);
+                }
+                setState(() {});
+              },
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(32)),
+                    border: Border.all(
+                      width: 2,
+                      color: Colors.pink,
+                    ),
+                    color: isSelected ? Colors.pink : null,
+                  ),
+                  child: Text(
+                    tag,
+                    style: TextStyle(
+                      color: isSelected ? Colors.white : Colors.pink,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
+
+          ),
+            Expanded(
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      selectedTags.clear();
+                      setState(() {});
+                    },
+                    child: const Text('クリア'),
+                  ),
+                  const SizedBox(width: 16),
+                  ElevatedButton(
+                    onPressed: () {
+                      // deep copy する方法
+                      // selectedTags = tags だと参照を渡したことにしかならない
+                      selectedTags = List.of(tags);
+                      setState(() {});
+                    },
+                    child: const Text('ぜんぶ'),
+                  ),
+
+                  ElevatedButton(
+                    onPressed: () {
+                    },
+                    child: Text(
+                      "絞り込む",
+                      style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.pink, //ボタンの背景色
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
