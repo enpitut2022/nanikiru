@@ -131,54 +131,19 @@ class _FlutterDemoState extends State<FlutterDemo> {
     List<Widget> children;
 
     if (gender) {
+      final List<String> lists = men_category['tops'].cast<String>() as List<String>;
       children = <Widget>[
-        RadioListTile(
-            title: Text(men_category['tops'][0]),
-            value: men_category['tops'][0],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(men_category['tops'][1]),
-            value: men_category['tops'][1],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(men_category['tops'][2]),
-            value: men_category['tops'][2],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(men_category['tops'][3]),
-            value: men_category['tops'][3],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(men_category['tops'][4]),
-            value: men_category['tops'][4],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(men_category['tops'][5]),
-            value: men_category['tops'][5],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(men_category['tops'][6]),
-            value: men_category['tops'][6],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(men_category['tops'][7]),
-            value: men_category['tops'][7],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
+        DropdownButton<String>(
+          value: tops_sentaku,
+          items: lists
+              .map((String list) =>
+              DropdownMenuItem(value: list, child: Text(list)))
+              .toList(),
+          onChanged: (String? value) {
+            setState(() {
+              _onRadioSelected(value);
+            });
+          },
         ),
         ElevatedButton(
           onPressed: (){
@@ -254,66 +219,19 @@ class _FlutterDemoState extends State<FlutterDemo> {
         ),
       ];
     } else {
+      final List<String> lists = women_category['tops'].cast<String>() as List<String>;
       children = <Widget>[
-        RadioListTile(
-            title: Text(women_category['tops'][0]),
-            value: women_category['tops'][0],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(women_category['tops'][1]),
-            value: women_category['tops'][1],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(women_category['tops'][2]),
-            value: women_category['tops'][2],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(women_category['tops'][3]),
-            value: women_category['tops'][3],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(women_category['tops'][4]),
-            value: women_category['tops'][4],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(women_category['tops'][5]),
-            value: women_category['tops'][5],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(women_category['tops'][6]),
-            value: women_category['tops'][6],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(women_category['tops'][7]),
-            value: women_category['tops'][7],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(women_category['tops'][8]),
-            value: women_category['tops'][8],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
-        ),
-        RadioListTile(
-            title: Text(women_category['tops'][9]),
-            value: women_category['tops'][9],
-            groupValue: tops_sentaku,
-            onChanged: _onRadioSelected
+        DropdownButton<String>(
+          value: tops_sentaku,
+          items: lists
+              .map((String list) =>
+              DropdownMenuItem(value: list, child: Text(list)))
+              .toList(),
+          onChanged: (String? value) {
+            setState(() {
+              _onRadioSelected(value);
+            });
+          },
         ),
         ElevatedButton(
           onPressed: (){
