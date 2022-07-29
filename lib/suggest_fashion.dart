@@ -89,44 +89,53 @@ class SuggestFashion extends StatefulWidget {
   _RegisteredClothesState createState() => _RegisteredClothesState();
 }
 
-class _RegisteredClothesState extends State<SuggestFashion> {
-  List fashion_list = [''];
+class Closet {
+  Map fashion_map = {'tops':[''], 'bottoms':[''], 'outer':[''], 'shoes':['']};
+  Map color_map = {'tops':[''], 'bottoms':[''], 'outer':[''], 'shoes':['']};
+  List rand_nums = [0, 0, 0, 0];
+  List category_rands = [0, 0, 0, 0];
+  List colors = ['ff000000', 'ff000000', 'ff000000', 'ff000000'];
 
-  Map fashion_map = {'tops':[''], 'bottoms':[''], 'outer':[''], 'shoes':[''], 'dress':['']};
-  Map color_map = {'tops':[''], 'bottoms':[''], 'outer':[''], 'shoes':[''], 'dress':['']};
+  void registerClothes(value){
+    List fashion_list = value.split('\n');
+    fashion_list.removeLast();
+    List item_information;
+
+    for (var i = 0; i < fashion_list.length; i++) {
+      item_information = fashion_list[i].split(',');
+      fashion_map[item_information[0]].add(item_information[1]);
+      color_map[item_information[0]].add(item_information[2]);
+    }
+    for (var key in fashion_map.keys) {
+      fashion_map[key].removeAt(0);
+      color_map[key].removeAt(0);
+    }
+  }
+
+  void randomSuggestion(category){
+    for (var i = 0; i <= 3; i++) {
+      if (fashion_map[category.keys.elementAt(i)].length != 0) {
+        category_rands[i] = Random().nextInt(fashion_map.values.elementAt(i).length);
+        colors[i] = color_map[category.keys.elementAt(i)][category_rands[i]];
+      }
+      else{
+        rand_nums[i] = Random().nextInt(category.values.elementAt(i).length);
+      }
+    }
+  }
+
+}
+
+class _RegisteredClothesState extends State<SuggestFashion> {
+  Closet closet = Closet();
 
   Map men_category = Constants().men_category;
   Map women_category = Constants().women_category;
+  Map category = {};
 
   @override
   void initState() {
     super.initState();
-    widget.storage.readCounter().then((value) {
-      setState(() {
-      fashion_list = value.split('\n');
-      fashion_list.removeLast();
-
-      for (var i = 0; i < fashion_list.length; i++) {
-        List item_information;
-        item_information = fashion_list[i].split(',');
-        fashion_map[item_information[0]].add(item_information[1]);
-        color_map[item_information[0]].add(item_information[2]);
-
-      }
-      // fashion_map.forEach((String key, List value){
-      for (var key in fashion_map.keys) {
-        fashion_map[key].removeAt(0);
-        color_map[key].removeAt(0);
-      };
-
-      // });
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Map category;
     if(widget.men){
       category = men_category;
     }
@@ -134,32 +143,17 @@ class _RegisteredClothesState extends State<SuggestFashion> {
       category = women_category;
     }
 
-    List rand_nums = [];
-    category.forEach((key, value) {
-      rand_nums.add(Random().nextInt(value.length));
+    widget.storage.readCounter().then((value) {
+      setState(() {
+        closet.registerClothes(value);
+        closet.randomSuggestion(category);
+      });
     });
 
-    List category_rands = [];
-    for (var key in fashion_map.keys) {
-      if (fashion_map[key].length > 0) {
-        category_rands.add(Random().nextInt(fashion_map[key].length));
-      }
-      else{
-        category_rands.add(0);
-      }
-    }
+  }
 
-    List colors = [];
-    for (var i = 0; i <= 3; i++){
-      if (fashion_map[category.keys.elementAt(i)].length == 0){
-        colors.add('ff000000');
-      }
-      else{
-        colors.add(color_map[category.keys.elementAt(i)][category_rands[i]]);
-      }
-    }
-
-
+  @override
+  Widget build(BuildContext context) {
 
     // TODO: implement build
     return Scaffold(
@@ -170,18 +164,18 @@ class _RegisteredClothesState extends State<SuggestFashion> {
         children: <Widget>[
           //登録がない場合はランダムで提案
           for (var i = 0; i <= 3; i++)
-            if (fashion_map[category.keys.elementAt(i)].length == 0)  ... [Text(category.keys.elementAt(i)+":"+category[category.keys.elementAt(i)][rand_nums[i]])] else Text(category.keys.elementAt(i)+":"+fashion_map[category.keys.elementAt(i)][category_rands[i]]),
+            if (closet.fashion_map[category.keys.elementAt(i)].length == 0)  ... [Text(category.keys.elementAt(i)+":"+category[category.keys.elementAt(i)][closet.rand_nums[i]])] else Text(category.keys.elementAt(i)+":"+closet.fashion_map[category.keys.elementAt(i)][closet.category_rands[i]]),
           CustomPaint(
             size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
-            painter: _MyPainterTops(colors[0]),
+            painter: _MyPainterTops(closet.colors[0]),
           ),
           CustomPaint(
             size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
-            painter: _MyPainterBottoms(colors[1]),
+            painter: _MyPainterBottoms(closet.colors[1]),
           ),
           CustomPaint(
             size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
-            painter: _MyPainterShoes(colors[3]),
+            painter: _MyPainterShoes(closet.colors[3]),
           ),
         ],
       ),
