@@ -4,6 +4,7 @@ import 'package:nanikiru/suggest_fashion.dart';
 import 'package:nanikiru/register_fashion.dart';
 import 'next_page.dart';
 import 'select_fashion_category.dart';
+import 'select_view_register_fashion.dart';
 
 bool men = true;
 
@@ -19,7 +20,9 @@ class FirstPage extends StatelessWidget{
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            ElevatedButton(
+            SizedBox(width:230,
+              height:50,
+            child:ElevatedButton(
               onPressed: (){
                 Navigator.push(
                   context,
@@ -27,8 +30,10 @@ class FirstPage extends StatelessWidget{
                 );
               },
               child: const Text('候補のファッションを見る'),
-            ),
-            ElevatedButton(
+            ),),
+            SizedBox(width:230,
+            height:50,
+            child: ElevatedButton(
               onPressed: (){
                 Navigator.push(
                   context,
@@ -36,16 +41,18 @@ class FirstPage extends StatelessWidget{
                 );
               },
               child: const Text('服を登録'),
-            ),
-            ElevatedButton(
+            ),),
+      SizedBox(width:230,
+        height:50,
+            child: ElevatedButton(
               onPressed: (){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => FlutterDemo_2(storage: CounterStorage2())),
+                  MaterialPageRoute(builder: (context) => SelectViewRegisterFashion(men)),
                 );
               },
               child: const Text('服一覧'),
-            ),
+            ),),
             RadioButtonWidget(),
           ],
         ),
@@ -65,8 +72,9 @@ class _GenderState extends State<RadioButtonWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          SizedBox(width:150, height: 50.0, child:
+          SizedBox(width:180, height: 50.0, child:
           RadioListTile(
             title: Text('メンズ'),
             value: true,
@@ -75,7 +83,7 @@ class _GenderState extends State<RadioButtonWidget> {
           ),
 
     ),
-          SizedBox(width:150, height: 50.0, child:
+          SizedBox(width:180, height: 50.0, child:
           RadioListTile(
               title: Text('レディース'),
               value: false,

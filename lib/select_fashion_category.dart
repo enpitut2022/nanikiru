@@ -21,7 +21,8 @@ class ThirdPage extends StatelessWidget{
       appBar: AppBar(
         title: const Text('NANIKIRU'),
       ),
-      body: Column(
+      body: Center(
+      child:Column( mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [ElevatedButton(
           onPressed: (){
             Navigator.push(
@@ -63,7 +64,7 @@ class ThirdPage extends StatelessWidget{
         ],
 
       ),
-    );
+    ),);
   }
 
 

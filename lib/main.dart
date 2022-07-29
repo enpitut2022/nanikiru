@@ -77,7 +77,8 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body:Column(
+      body:Center(
+        child:Column(
         children:[ Image.asset('images/top.jpeg'),
         ElevatedButton(
             onPressed: (){
@@ -87,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
             child: const Text('Tap to start'),)]
+        ),
       )
 
     );
