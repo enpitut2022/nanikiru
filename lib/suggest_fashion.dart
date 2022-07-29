@@ -9,6 +9,103 @@ import 'package:path_provider/path_provider.dart';
 import 'package:nanikiru/fahion_list.dart';
 import 'dart:developer' as developer;
 
+
+class _MyPainterBody extends CustomPainter {
+
+  // ※ コンストラクタに引数を持たせたい場合はこんな感じで
+  _MyPainterBody(this.topscolor, this.bottomscolor, this.outercolor, this.shoescolor, this.device_width, this.device_height);
+  String topscolor;
+  String bottomscolor;
+  String outercolor;
+  String shoescolor;
+  double device_width;
+  double device_height;
+
+  // 表示の調整に使う変数
+  // 左側の描画のマージン
+  final leftmargin = 30.0;
+  // トップスのサイズ
+  final topssize = 100.0;
+  // ボトムスのサイズ
+  final bottomssize = 100.0;
+  // 各画像の幅
+  final width = 130;
+
+  // 実際の描画処理を行うメソッド
+  @override
+  void paint(Canvas canvas, Size size) {
+
+    // ここに描画の処理を書く
+    // outer なし版(画面左)
+    final paint = Paint();
+
+    // tops の描画
+    paint.color = Color(int.parse(topscolor, radix: 16));
+    canvas.drawRect(Rect.fromLTWH(0 +leftmargin,10,25,40), paint);
+    canvas.drawRect(Rect.fromLTWH(75 +leftmargin,10,25,40), paint);
+    canvas.drawRect(Rect.fromLTWH(20 +leftmargin,20,60,80), paint);
+
+    // bottoms の描画
+    paint.color = Color(int.parse(bottomscolor, radix: 16));
+    canvas.drawRect(Rect.fromLTWH(20+leftmargin, 0 +topssize,35,36), paint);
+    canvas.drawRect(Rect.fromLTWH(55+leftmargin, 0 +topssize,25,100), paint);
+    canvas.drawRect(Rect.fromLTWH(20+leftmargin, 0 +topssize,25,100), paint);
+
+    // shoes の描画
+    paint.color = Color(int.parse(shoescolor, radix: 16));
+    canvas.drawRect(Rect.fromLTWH(10 +leftmargin,0 +topssize +bottomssize,35,23), paint);
+    canvas.drawRect(Rect.fromLTWH(55 +leftmargin,0 +topssize +bottomssize,35,23), paint);
+
+
+    // outer あり版(画面右)
+    // outer の裏側の描画
+    paint.color = Color(int.parse(outercolor, radix: 16));
+    canvas.drawRect(Rect.fromLTWH(30 +device_width -leftmargin -100, 12 ,40,150), paint);
+
+    // tops の描画
+    paint.color = Color(int.parse(topscolor, radix: 16));
+    canvas.drawRect(Rect.fromLTWH(0 +device_width -leftmargin -100,10,25,40), paint);
+    canvas.drawRect(Rect.fromLTWH(75 +device_width -leftmargin -100,10,25,40), paint);
+    canvas.drawRect(Rect.fromLTWH(20 +device_width -leftmargin -100,20,60,80), paint);
+    //paint.color = Colors.white;
+    //canvas.drawRect(Rect.fromLTWH(25 +device_width -leftmargin -100,9,50,10), paint);
+
+    // bottoms の描画
+    paint.color = Color(int.parse(bottomscolor, radix: 16));
+    canvas.drawRect(Rect.fromLTWH(20+device_width -leftmargin -100, 0 +topssize,35,36), paint);
+    canvas.drawRect(Rect.fromLTWH(55+device_width -leftmargin -100, 0 +topssize,25,100), paint);
+    canvas.drawRect(Rect.fromLTWH(20+device_width -leftmargin -100, 0 +topssize,25,100), paint);
+
+    // shoes の描画
+    paint.color = Color(int.parse(shoescolor, radix: 16));
+    canvas.drawRect(Rect.fromLTWH(10 +device_width -leftmargin -100,0 +topssize +bottomssize,35,23), paint);
+    canvas.drawRect(Rect.fromLTWH(55 +device_width -leftmargin -100,0 +topssize +bottomssize,35,23), paint);
+
+    //outer の描画
+    paint.color = Color(int.parse(outercolor, radix: 16));
+    canvas.drawRect(Rect.fromLTWH(0 +device_width -leftmargin -100, 9 ,40,150), paint);
+    canvas.drawRect(Rect.fromLTWH(60+device_width -leftmargin -100, 9, 40,150), paint);
+    var pathleft = Path();
+    pathleft.moveTo(0 +device_width -leftmargin -100, 9);
+    pathleft.lineTo(-15 +device_width -leftmargin -100, 155);
+    pathleft.lineTo(0 +device_width -leftmargin -100, 155);
+    pathleft.close();
+    canvas.drawPath(pathleft, paint);
+    var pathright = Path();
+    pathright.moveTo(100 +device_width -leftmargin -100, 9);
+    pathright.lineTo(115 +device_width -leftmargin -100, 155);
+    pathright.lineTo(100 +device_width -leftmargin -100, 155);
+    pathright.close();
+    canvas.drawPath(pathright, paint);
+
+  }
+
+  // 再描画のタイミングで呼ばれるメソッド
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
+}
+
+
 class _MyPainterTops extends CustomPainter {
 
   // ※ コンストラクタに引数を持たせたい場合はこんな感じで
@@ -126,7 +223,10 @@ class _RegisteredClothesState extends State<SuggestFashion> {
 
   @override
   Widget build(BuildContext context) {
-    Map category;
+    final device_width = MediaQuery.of(context).size.width;
+    final device_height = MediaQuery.of(context).size.height;
+
+      Map category;
     if(widget.men){
       category = men_category;
     }
@@ -173,16 +273,20 @@ class _RegisteredClothesState extends State<SuggestFashion> {
             if (fashion_map[category.keys.elementAt(i)].length == 0)  ... [Text(category.keys.elementAt(i)+":"+category[category.keys.elementAt(i)][rand_nums[i]])] else Text(category.keys.elementAt(i)+":"+fashion_map[category.keys.elementAt(i)][category_rands[i]]),
           CustomPaint(
             size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
-            painter: _MyPainterTops(colors[0]),
+            painter: _MyPainterBody(colors[0], colors[1], colors[2], colors[3], device_width, device_height),
           ),
-          CustomPaint(
-            size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
-            painter: _MyPainterBottoms(colors[1]),
-          ),
-          CustomPaint(
-            size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
-            painter: _MyPainterShoes(colors[3]),
-          ),
+          // CustomPaint(
+          //   size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
+          //   painter: _MyPainterTops(colors[0]),
+          // ),
+          // CustomPaint(
+          //   size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
+          //   painter: _MyPainterBottoms(colors[1]),
+          // ),
+          // CustomPaint(
+          //   size: Size(400,100), //child:や親ウィジェットがない場合はここでサイズを指定できる
+          //   painter: _MyPainterShoes(colors[3]),
+          // ),
         ],
       ),
     );
