@@ -20,7 +20,7 @@ class SelectViewRegisterFashion extends StatelessWidget{
               onPressed: (){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  FlutterDemo_2(storage: CounterStorage2())),
+                  MaterialPageRoute(builder: (context) =>  FlutterDemo_list('tops' ,storage: CounterStorage_list())),
                 );
               },
               child: const Text('トップス'),
@@ -29,7 +29,7 @@ class SelectViewRegisterFashion extends StatelessWidget{
               onPressed: (){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  FlutterDemo_2(storage: CounterStorage2())),
+                  MaterialPageRoute(builder: (context) =>  FlutterDemo_list('bottoms' ,storage: CounterStorage_list())),
                 );
               },
               child: const Text('ボトムス'),
@@ -39,7 +39,7 @@ class SelectViewRegisterFashion extends StatelessWidget{
                 onPressed: (){
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>  FlutterDemo_2(storage: CounterStorage2())),
+                    MaterialPageRoute(builder: (context) =>  FlutterDemo_list('outer', storage: CounterStorage_list())),
                   );
                 },
                 child: const Text('アウター'),
@@ -48,7 +48,7 @@ class SelectViewRegisterFashion extends StatelessWidget{
                 onPressed: (){
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => FlutterDemo_2(storage: CounterStorage2())),
+                    MaterialPageRoute(builder: (context) => FlutterDemo_list('shoes',storage: CounterStorage_list())),
                   );
                 },
                 child: const Text('シューズ'),

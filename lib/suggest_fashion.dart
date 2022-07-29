@@ -8,6 +8,7 @@ import '../utils/constants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:nanikiru/fahion_list.dart';
 import 'dart:developer' as developer;
+import 'tops.dart';
 
 class _MyPainterTops extends CustomPainter {
 
@@ -20,7 +21,7 @@ class _MyPainterTops extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // ここに描画の処理を書く
     final paint = Paint();
-    paint.color = Color(int.parse(color, radix: 16));
+    paint.color = Color(int.parse("0xff" + color));
     const margin = 5.0;
     canvas.drawRect(Rect.fromLTWH(0 +margin,10,100,40), paint);
     canvas.drawRect(Rect.fromLTWH(20 +margin,30,60,70), paint);
@@ -46,7 +47,7 @@ class _MyPainterBottoms extends CustomPainter {
     // ここに描画の処理を書く
     const margin = 25.0;
     final paint = Paint();
-    paint.color = Color(int.parse(color, radix: 16));
+    paint.color = Color(int.parse("0xff" + color));
     canvas.drawRect(Rect.fromLTWH(0+margin,0,35,36), paint);
     canvas.drawRect(Rect.fromLTWH(35+margin,0,25,100), paint);
     canvas.drawRect(Rect.fromLTWH(0+margin,0,25,100), paint);
@@ -69,7 +70,7 @@ class _MyPainterShoes extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // ここに描画の処理を書く
     final paint = Paint();
-    paint.color = Color(int.parse(color, radix: 16));
+    paint.color = Color(int.parse("0xff" + color));
     canvas.drawRect(Rect.fromLTWH(10+5,0,35,23), paint);
     canvas.drawRect(Rect.fromLTWH(55+5,0,35,23), paint);
   }
@@ -82,7 +83,7 @@ class _MyPainterShoes extends CustomPainter {
 class SuggestFashion extends StatefulWidget {
   SuggestFashion(this.men, {super.key, required this.storage});
 
-  final CounterStorage2 storage;
+  final CounterStorage storage;
   final bool men;
 
   @override
